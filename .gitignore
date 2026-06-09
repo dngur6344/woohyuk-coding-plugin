@@ -1,0 +1,35 @@
+.DS_Store
+
+# Local environment and secrets
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+*.crt
+*.cer
+*.mobileprovision
+
+# Local Codex/plugin state
+.agents/
+.codex/
+marketplace.json
+
+# Local MCP overrides can contain private paths or credentials
+.mcp.local.json
+*.local.mcp.json
+
+# Pencil design files may contain private product or client designs
+*.pen
+
+# Build and package manager output
+node_modules/
+dist/
+build/
+coverage/
+.turbo/
+.next/
+.vite/
+*.log

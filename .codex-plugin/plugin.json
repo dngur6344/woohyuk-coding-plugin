@@ -1,0 +1,18 @@
+{
+  "name": "woohyuk-coding-plugin",
+  "version": "0.1.0",
+  "description": "Personal Codex workflows for code review, Pencil design implementation, README maintenance, and project architecture documentation.",
+  "author": {
+    "name": "woohyuk"
+  },
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Woohyuk Coding Plugin",
+    "shortDescription": "Review, design, README, and docs workflows.",
+    "longDescription": "Woohyuk Coding Plugin provides personal Codex skills for reviewing code, using Pencil .pen design files, maintaining README files, and documenting project architecture under docs/.",
+    "developerName": "woohyuk",
+    "category": "Productivity",
+    "capabilities": [],
+    "defaultPrompt": "Use woohyuk-coding-plugin for code review, Pencil design implementation, README maintenance, or project architecture docs."
+  }
+}

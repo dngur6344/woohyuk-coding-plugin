@@ -1,0 +1,4 @@
+interface:
+  display_name: "Pencil Design Implementation"
+  short_description: "Use Pencil .pen files for design-to-code."
+  default_prompt: "Use $pencil-design-implementation to inspect the Pencil design and implement it in code."

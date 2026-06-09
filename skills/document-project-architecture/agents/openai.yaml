@@ -1,0 +1,4 @@
+interface:
+  display_name: "Document Project Architecture"
+  short_description: "Document architecture, flow, and packages."
+  default_prompt: "Use $document-project-architecture to document this project under docs/."

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Update Changelog"
+  short_description: "Update changelogs from repository diffs."
+  default_prompt: "Use $update-changelog to update the changelog from the current changes."

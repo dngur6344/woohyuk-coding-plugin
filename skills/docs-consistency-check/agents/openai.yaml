@@ -1,0 +1,4 @@
+interface:
+  display_name: "Docs Consistency Check"
+  short_description: "Find contradictions across project docs."
+  default_prompt: "Use $docs-consistency-check to inspect docs for stale or conflicting information."

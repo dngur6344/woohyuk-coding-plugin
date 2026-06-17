@@ -1,0 +1,4 @@
+interface:
+  display_name: "Visual QA"
+  short_description: "Check frontend visuals across viewports."
+  default_prompt: "Use $visual-qa to check the frontend visually across relevant viewports."

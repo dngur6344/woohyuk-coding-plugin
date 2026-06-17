@@ -1,0 +1,4 @@
+interface:
+  display_name: "Write ADR"
+  short_description: "Write architecture decision records."
+  default_prompt: "Use $write-adr to write an ADR for this architectural decision."

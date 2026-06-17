@@ -1,0 +1,4 @@
+interface:
+  display_name: "Create Test Plan"
+  short_description: "Plan focused tests for code changes."
+  default_prompt: "Use $create-test-plan to design a focused test plan for this change."

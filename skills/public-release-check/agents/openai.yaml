@@ -1,0 +1,4 @@
+interface:
+  display_name: "Public Release Check"
+  short_description: "Check repos before public release."
+  default_prompt: "Use $public-release-check to inspect this repository before publishing it publicly."

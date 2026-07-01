@@ -1,0 +1,4 @@
+interface:
+  display_name: "Write Implementation Plan"
+  short_description: "Create dated docs plans for implementation."
+  default_prompt: "Use $write-implementation-plan to create a dated implementation plan under docs/."

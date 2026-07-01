@@ -1,6 +1,6 @@
 # Woohyuk Coding Plugin
 
-Personal Codex plugin with workflows for code review, Pencil design implementation, documentation, PR preparation, changelogs, test planning, public release checks, visual QA, and commit messages.
+Personal Codex plugin with workflows for code review, Pencil design implementation, documentation, implementation planning, plan execution, PR preparation, changelogs, test planning, public release checks, visual QA, commit messages, and local LLM wiki lookup.
 
 ## Skills
 
@@ -9,6 +9,8 @@ Personal Codex plugin with workflows for code review, Pencil design implementati
 - `$maintain-readme`: Create or update README content from repository evidence.
 - `$document-project-architecture`: Create structured project architecture documentation under `docs/`.
 - `$write-adr`: Write Architecture Decision Records under `docs/adr/`.
+- `$write-implementation-plan`: Create dated implementation plan documents under `docs/`.
+- `$ralph`: Implement saved plan documents and mark completed plans as implemented.
 - `$create-test-plan`: Create focused test plans from changes and risk areas.
 - `$visual-qa`: Run rendered frontend visual QA across relevant viewports.
 - `$public-release-check`: Check a repository before publishing it publicly.
@@ -16,6 +18,7 @@ Personal Codex plugin with workflows for code review, Pencil design implementati
 - `$prepare-pr`: Draft PR titles, bodies, checklists, risks, and testing notes.
 - `$update-changelog`: Create or update changelog and release-note entries.
 - `$docs-consistency-check`: Find stale or contradictory documentation.
+- `$search-llm-wiki`: Search and reference the local LLM wiki for relevant knowledge.
 
 ## Codex CLI Status Line
 
@@ -38,6 +41,8 @@ skills/
   maintain-readme/
   document-project-architecture/
   write-adr/
+  write-implementation-plan/
+  ralph/
   create-test-plan/
   visual-qa/
   public-release-check/
@@ -45,6 +50,7 @@ skills/
   prepare-pr/
   update-changelog/
   docs-consistency-check/
+  search-llm-wiki/
 ```
 
 ## Public Repository Notes

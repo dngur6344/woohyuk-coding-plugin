@@ -1,18 +1,18 @@
 {
   "name": "woohyuk-coding-plugin",
-  "version": "0.3.1",
-  "description": "Personal Codex workflows for review, design implementation, documentation, PRs, changelogs, testing, release checks, and commit messages.",
+  "version": "0.4.0",
+  "description": "Personal Codex workflows for review, design implementation, documentation, implementation planning, plan execution, PRs, changelogs, testing, release checks, commit messages, and LLM wiki lookup.",
   "author": {
     "name": "woohyuk"
   },
   "skills": "./skills/",
   "interface": {
     "displayName": "Woohyuk Coding Plugin",
-    "shortDescription": "Review, design, docs, PR, and release workflows.",
-    "longDescription": "Woohyuk Coding Plugin provides personal Codex skills for reviewing code, using Pencil .pen design files, maintaining README files, documenting project architecture, writing ADRs, planning tests, running visual QA, checking public release readiness, drafting commit messages, preparing PR content, updating changelogs, and checking documentation consistency.",
+    "shortDescription": "Review, design, docs, plans, PR, and wiki workflows.",
+    "longDescription": "Woohyuk Coding Plugin provides personal Codex skills for reviewing code, using Pencil .pen design files, maintaining README files, documenting project architecture, writing ADRs, writing implementation plans, executing saved plans with Ralph, planning tests, running visual QA, checking public release readiness, drafting commit messages, preparing PR content, updating changelogs, checking documentation consistency, and searching the local LLM wiki.",
     "developerName": "woohyuk",
     "category": "Productivity",
     "capabilities": [],
-    "defaultPrompt": "Use woohyuk-coding-plugin for code review, Pencil design implementation, docs, PRs, changelogs, tests, release checks, or commit messages."
+    "defaultPrompt": "Use woohyuk-coding-plugin for code review, Pencil design implementation, docs, implementation plans, Ralph plan execution, PRs, changelogs, tests, release checks, commit messages, or LLM wiki lookup."
   }
 }

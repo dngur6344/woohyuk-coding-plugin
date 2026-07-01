@@ -1,0 +1,4 @@
+interface:
+  display_name: "Search LLM Wiki"
+  short_description: "Search personal LLM wiki notes."
+  default_prompt: "Use $search-llm-wiki to find relevant information in my LLM wiki."

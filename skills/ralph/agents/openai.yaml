@@ -1,0 +1,4 @@
+interface:
+  display_name: "Ralph"
+  short_description: "Implement saved plan documents."
+  default_prompt: "Use $ralph to implement a saved implementation plan and mark it complete."

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Woohyuk Public Release Check"
+  short_description: "Check repos before public release."
+  default_prompt: "Use $woohyuk-public-release-check to inspect this repository before publishing it publicly."

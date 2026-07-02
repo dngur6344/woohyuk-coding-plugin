@@ -1,0 +1,4 @@
+interface:
+  display_name: "Woohyuk Maintain README"
+  short_description: "Create or refresh README from repo evidence."
+  default_prompt: "Use $woohyuk-maintain-readme to create or update the README from repository evidence."

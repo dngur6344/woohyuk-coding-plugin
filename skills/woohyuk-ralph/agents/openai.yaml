@@ -1,0 +1,4 @@
+interface:
+  display_name: "Woohyuk Ralph"
+  short_description: "Implement saved plan documents."
+  default_prompt: "Use $woohyuk-ralph to implement a saved implementation plan and mark it complete."

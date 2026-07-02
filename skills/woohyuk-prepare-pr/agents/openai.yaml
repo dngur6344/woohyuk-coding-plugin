@@ -1,0 +1,4 @@
+interface:
+  display_name: "Woohyuk Prepare PR"
+  short_description: "Draft PR titles, bodies, and checks."
+  default_prompt: "Use $woohyuk-prepare-pr to draft a PR title, body, checklist, and risk summary."

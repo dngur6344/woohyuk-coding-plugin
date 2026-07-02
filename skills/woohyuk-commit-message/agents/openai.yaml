@@ -1,0 +1,4 @@
+interface:
+  display_name: "Woohyuk Commit Message"
+  short_description: "Write commit messages from diffs."
+  default_prompt: "Use $woohyuk-commit-message to draft a commit message from the staged diff."

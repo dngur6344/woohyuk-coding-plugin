@@ -1,0 +1,4 @@
+interface:
+  display_name: "Woohyuk Plan"
+  short_description: "Create dated docs plans for implementation."
+  default_prompt: "Use $woohyuk-plan to create a dated implementation plan under docs/."

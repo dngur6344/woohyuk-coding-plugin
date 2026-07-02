@@ -1,0 +1,4 @@
+interface:
+  display_name: "Woohyuk Pencil Design Implementation"
+  short_description: "Use Pencil .pen files for design-to-code."
+  default_prompt: "Use $woohyuk-pencil-design-implementation to inspect the Pencil design and implement it in code."

@@ -1,6 +1,6 @@
 {
   "name": "woohyuk-coding-plugin",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "description": "Personal Codex workflows for review, design implementation, documentation, implementation planning, plan execution, PRs, changelogs, testing, release checks, commit messages, and LLM wiki lookup.",
   "author": {
     "name": "woohyuk"
@@ -9,7 +9,7 @@
   "interface": {
     "displayName": "Woohyuk Coding Plugin",
     "shortDescription": "Review, design, docs, plans, PR, and wiki workflows.",
-    "longDescription": "Woohyuk Coding Plugin provides personal Codex skills for reviewing code, using Pencil .pen design files, maintaining README files, documenting project architecture, writing ADRs, writing implementation plans, executing saved plans with Ralph, planning tests, running visual QA, checking public release readiness, drafting commit messages, preparing PR content, updating changelogs, checking documentation consistency, and searching the local LLM wiki.",
+    "longDescription": "Woohyuk Coding Plugin provides personal Codex skills for reviewing code, using Pencil .pen design files, maintaining README files, documenting project architecture, writing ADRs, writing subgoal-based implementation plans, executing saved plans with Ralph one verified subgoal at a time, planning tests, running visual QA, checking public release readiness, drafting commit messages, preparing PR content, updating changelogs, checking documentation consistency, and searching the local LLM wiki.",
     "developerName": "woohyuk",
     "category": "Productivity",
     "capabilities": [],

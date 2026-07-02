@@ -9,8 +9,8 @@ Personal Codex plugin with workflows for code review, Pencil design implementati
 - `$maintain-readme`: Create or update README content from repository evidence.
 - `$document-project-architecture`: Create structured project architecture documentation under `docs/`.
 - `$write-adr`: Write Architecture Decision Records under `docs/adr/`.
-- `$write-implementation-plan`: Create dated implementation plan documents under `docs/`.
-- `$ralph`: Implement saved plan documents and mark completed plans as implemented.
+- `$write-implementation-plan`: Create subgoal-based implementation plan documents under `docs/`.
+- `$ralph`: Implement saved plans one verified subgoal at a time until complete.
 - `$create-test-plan`: Create focused test plans from changes and risk areas.
 - `$visual-qa`: Run rendered frontend visual QA across relevant viewports.
 - `$public-release-check`: Check a repository before publishing it publicly.

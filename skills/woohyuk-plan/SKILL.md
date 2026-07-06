@@ -1,6 +1,6 @@
 ---
 name: woohyuk-plan
-description: "Create implementation plan documents before code changes. Use when the user asks for a plan, implementation plan, task breakdown, roadmap, or wants planning saved under docs/ before coding. Creates docs/YYYY-MM-DD-feature-slug/plan.md with goal sizing, subgoals, per-subgoal verification, risks, assumptions, and implementation result placeholders for Ralph to execute."
+description: "Create implementation plan documents before code changes. Use when the user asks for a plan, implementation plan, task breakdown, roadmap, or wants planning saved under docs/ before coding. Creates docs/YYYY-MM-DD-feature-slug/plan.md with goal sizing, user-confirmed decisions, subgoals, per-subgoal verification, risks, assumptions, and implementation result placeholders for Ralph to execute."
 ---
 
 # Write Implementation Plan
@@ -14,11 +14,13 @@ Create a saved implementation plan in the target repository before coding. The p
 1. Identify the target repository and read its local instructions first, including `AGENTS.md`, README files, package scripts, and nearby documentation relevant to the requested feature.
 2. Classify the goal size as `small`, `medium`, or `large` based on scope, uncertainty, touched areas, and verification cost.
 3. Break the goal into subgoals sized so each can be implemented and verified independently. For trivial work, use one subgoal.
-4. State important assumptions in the plan. Ask the user only when ambiguity would materially change implementation.
-5. Create a directory under `docs/` named `YYYY-MM-DD-feature-slug`.
-6. Create the plan document as `docs/YYYY-MM-DD-feature-slug/plan.md`.
-7. Do not implement code while using this skill unless the user explicitly asks for both planning and implementation.
-8. In the final response, provide the plan path, goal size, subgoal count, and main assumptions or open questions.
+4. Identify decision points that affect implementation direction, scope, architecture, UX, data shape, dependencies, compatibility, migration strategy, or verification.
+5. Ask the user to decide required decision points before finalizing the plan. Do not silently choose between meaningful alternatives.
+6. State low-risk assumptions in the plan only when they do not materially change implementation.
+7. Create a directory under `docs/` named `YYYY-MM-DD-feature-slug`.
+8. Create the plan document as `docs/YYYY-MM-DD-feature-slug/plan.md`.
+9. Do not implement code while using this skill unless the user explicitly asks for both planning and implementation.
+10. In the final response, provide the plan path, goal size, subgoal count, confirmed decisions, and main assumptions or open questions.
 
 ## Goal Sizing
 
@@ -29,6 +31,17 @@ Use these defaults:
 - `large`: cross-cutting behavior, migration, new architecture, or unclear dependencies; usually 4+ subgoals and more explicit risks.
 
 Do not inflate plans with generic process steps. A subgoal must produce a concrete repository change or a concrete decision that unblocks implementation.
+
+## Decision Handling
+
+Ask the user when a decision would change what gets built or how it is built.
+
+- Ask concise, numbered questions.
+- Provide 2-3 concrete options when useful, including the tradeoff for each option.
+- You may recommend an option, but the user makes the decision.
+- Wait for the user's answer before writing a final plan when the decision affects implementation scope or direction.
+- Record answered decisions in `## Decisions`.
+- Use `## Open Questions` only for non-blocking questions or questions the user explicitly leaves unresolved.
 
 ## Directory Naming
 
@@ -65,6 +78,10 @@ goal_size: small|medium|large
 ## Assumptions
 
 - <Assumption that affects implementation.>
+
+## Decisions
+
+- <Confirmed user decision, or "None">
 
 ## Scope
 
@@ -106,6 +123,7 @@ Not implemented yet.
 ## Quality Bar
 
 - Keep the plan specific to the requested feature. Avoid generic checklists.
+- Ask the user for implementation-affecting decisions instead of choosing silently.
 - Make each subgoal independently implementable and independently verifiable.
 - Do not let a subgoal depend on hidden context; include the file paths, commands, or decisions Ralph needs.
 - Tie every subgoal to a verification signal. If verification is manual, describe exactly what must be observed.

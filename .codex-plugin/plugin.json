@@ -1,6 +1,6 @@
 {
   "name": "woohyuk-coding-plugin",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "Personal Codex workflows for review, design implementation, documentation, implementation planning, plan execution, PRs, changelogs, testing, release checks, commit messages, and LLM wiki lookup.",
   "author": {
     "name": "woohyuk"

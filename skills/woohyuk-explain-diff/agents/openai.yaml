@@ -1,0 +1,4 @@
+interface:
+  display_name: "Woohyuk Explain Diff"
+  short_description: "Build interactive HTML diff explanations."
+  default_prompt: "Use $woohyuk-explain-diff to explain this code change as an interactive HTML document."

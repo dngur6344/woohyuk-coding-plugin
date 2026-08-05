@@ -1,18 +1,21 @@
 {
   "name": "woohyuk-coding-plugin",
-  "version": "0.6.1",
-  "description": "Personal Codex workflows for review, design implementation, documentation, implementation planning, plan execution, PRs, changelogs, testing, release checks, commit messages, and LLM wiki lookup.",
+  "version": "0.7.0",
+  "description": "Personal Codex workflows for review, interactive diff explanations, design implementation, documentation, implementation planning, plan execution, PRs, changelogs, testing, release checks, commit messages, and LLM wiki lookup.",
   "author": {
-    "name": "woohyuk"
+    "name": "woohyuk",
+    "url": "https://github.com/dngur6344"
   },
+  "homepage": "https://github.com/dngur6344/woohyuk-coding-plugin",
+  "repository": "https://github.com/dngur6344/woohyuk-coding-plugin",
   "skills": "./skills/",
   "interface": {
     "displayName": "Woohyuk Coding Plugin",
     "shortDescription": "Review, design, docs, plans, PR, and wiki workflows.",
-    "longDescription": "Woohyuk Coding Plugin provides personal Codex skills for reviewing code, using Pencil .pen design files, maintaining README files, documenting project architecture, writing ADRs, writing subgoal-based implementation plans, executing saved plans with Ralph one verified subgoal at a time, planning tests, running visual QA, checking public release readiness, drafting commit messages, preparing PR content, updating changelogs, checking documentation consistency, and searching the local LLM wiki.",
+    "longDescription": "Woohyuk Coding Plugin provides personal Codex skills for reviewing code, creating interactive HTML diff explanations, using Pencil .pen design files, maintaining README files, documenting project architecture, writing ADRs, writing subgoal-based implementation plans, executing saved plans with Ralph one verified subgoal at a time, planning tests, running visual QA, checking public release readiness, drafting commit messages, preparing PR content, updating changelogs, checking documentation consistency, and searching the local LLM wiki.",
     "developerName": "woohyuk",
     "category": "Productivity",
     "capabilities": [],
-    "defaultPrompt": "Use woohyuk-coding-plugin for code review, Pencil design implementation, docs, implementation plans, Ralph plan execution, PRs, changelogs, tests, release checks, commit messages, or LLM wiki lookup."
+    "defaultPrompt": "Use woohyuk-coding-plugin for code review, interactive diff explanations, Pencil design implementation, docs, implementation plans, Ralph plan execution, PRs, changelogs, tests, release checks, commit messages, or LLM wiki lookup."
   }
 }

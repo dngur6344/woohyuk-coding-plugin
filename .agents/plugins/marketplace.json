@@ -1,0 +1,21 @@
+{
+  "name": "woohyuk",
+  "interface": {
+    "displayName": "Woohyuk Plugins"
+  },
+  "plugins": [
+    {
+      "name": "woohyuk-coding-plugin",
+      "source": {
+        "source": "url",
+        "url": "https://github.com/dngur6344/woohyuk-coding-plugin.git",
+        "ref": "main"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    }
+  ]
+}

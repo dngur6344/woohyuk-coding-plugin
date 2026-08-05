@@ -13,9 +13,12 @@
 *.mobileprovision
 
 # Local Codex/plugin state
-.agents/
+.agents/*
+!.agents/plugins/
+.agents/plugins/*
+!.agents/plugins/marketplace.json
 .codex/
-marketplace.json
+/marketplace.json
 
 # Local MCP overrides can contain private paths or credentials
 .mcp.local.json

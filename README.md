@@ -1,8 +1,12 @@
 # Woohyuk Coding Plugin
 
+[English](README.md) | [한국어](README.ko.md)
+
 Personal Codex plugin with workflows for code review, interactive diff explanations, Pencil design implementation, documentation, implementation planning, plan execution, PR preparation, changelogs, test planning, public release checks, visual QA, commit messages, and local LLM wiki lookup.
 
-## Installation
+## Marketplace and Installation
+
+This repository is a Codex plugin marketplace. Its catalog is defined in `.agents/plugins/marketplace.json` with the marketplace name `woohyuk` and the plugin name `woohyuk-coding-plugin`.
 
 Add the GitHub repository as a Codex plugin marketplace, then install the plugin:
 
@@ -13,7 +17,14 @@ codex plugin add woohyuk-coding-plugin@woohyuk
 
 Start a new Codex session after installation so the bundled skills are loaded.
 
-To refresh the marketplace and reinstall the latest plugin version:
+To confirm that the marketplace and plugin are available:
+
+```bash
+codex plugin marketplace list
+codex plugin list --marketplace woohyuk
+```
+
+To refresh the marketplace snapshot and install the latest plugin version:
 
 ```bash
 codex plugin marketplace upgrade woohyuk
@@ -55,6 +66,8 @@ Use `context-used` to see how full the current context is, and `context-remainin
 ```text
 .agents/plugins/marketplace.json
 .codex-plugin/plugin.json
+README.md
+README.ko.md
 skills/
   woohyuk-review-code/
   woohyuk-explain-diff/

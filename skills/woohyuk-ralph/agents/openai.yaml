@@ -1,4 +1,4 @@
 interface:
   display_name: "Woohyuk Ralph"
-  short_description: "Implement saved plan documents."
-  default_prompt: "Use $woohyuk-ralph to implement a saved implementation plan and mark it complete."
+  short_description: "Implement and independently test the active plan."
+  default_prompt: "Use $woohyuk-ralph with the implementer and tester subagents to execute .woohyuk/plan.md."

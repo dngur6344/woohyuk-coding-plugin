@@ -1,4 +1,4 @@
 interface:
   display_name: "Woohyuk Plan"
-  short_description: "Create dated docs plans for implementation."
-  default_prompt: "Use $woohyuk-plan to create a dated implementation plan under docs/."
+  short_description: "Create an architect-reviewed active implementation plan."
+  default_prompt: "Use $woohyuk-plan with the architect and reviewer subagents to create .woohyuk/plan.md."

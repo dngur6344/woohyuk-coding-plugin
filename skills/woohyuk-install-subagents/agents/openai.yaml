@@ -1,0 +1,4 @@
+interface:
+  display_name: "Woohyuk Install Subagents"
+  short_description: "Install Woohyuk custom subagent roles."
+  default_prompt: "Use $woohyuk-install-subagents to install the bundled custom subagent roles for Codex."

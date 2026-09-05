@@ -1,13 +1,13 @@
 ---
 name: woohyuk-plan
-description: "Create the single active implementation plan at .woohyuk/plan.md before code changes. Use when the user asks for a plan, implementation plan, task breakdown, roadmap, or wants planning saved before coding. Uses the woohyuk-architect subagent for design and woohyuk-reviewer for plan validation, detects an existing active plan, and structures confirmed decisions, subgoals, verification, risks, assumptions, and result placeholders for Ralph."
+description: "Create the single active implementation plan at .woohyuk/plan.md before code changes. Use for implementation plans, task breakdowns, or roadmaps that Ralph can execute. Includes architect design, reviewer validation, verifiable subgoals, and required ADR, architecture, README, and changelog impact decisions."
 ---
 
 # Write Active Implementation Plan
 
 ## Overview
 
-Create one active implementation plan at `.woohyuk/plan.md` in the target repository. Use a read-only architect to shape the design and a separate read-only reviewer to validate the draft. Break work into small, verifiable subgoals so `$woohyuk-ralph` can execute one subgoal at a time. Do not create the dated `docs/` record during planning; Ralph creates it only after implementation and final verification succeed.
+Create one active implementation plan at `.woohyuk/plan.md` in the target repository. Use a read-only architect to shape the design and a separate read-only reviewer to validate the draft. Break work into small, verifiable subgoals and record the impact on ADR, architecture, README, and changelog documentation so `$woohyuk-ralph` can finish code and docs from explicit evidence. Do not create the dated `docs/` record during planning; Ralph creates it only after implementation, documentation review, and final verification succeed.
 
 ## Active Plan Guard
 
@@ -28,7 +28,7 @@ Use both specialist roles for every new plan when multi-agent tools are availabl
 
 1. Spawn `woohyuk-architect` after implementation-affecting user decisions are confirmed. Give it a self-contained task containing the requirements, target repository, constraints, relevant evidence, and decisions. Ask for design boundaries, flow, risks, and suggested subgoals. Keep it read-only.
 2. Synthesize the architect's evidence into the draft plan. The parent planner alone writes `.woohyuk/plan.md` with `status: draft` while review is pending.
-3. Spawn `woohyuk-reviewer` in `PLAN_REVIEW` mode with the requirements and draft path. Require it to verify references, requirement coverage, subgoal independence, dependencies, and executable verification.
+3. Spawn `woohyuk-reviewer` in `PLAN_REVIEW` mode with the requirements and draft path. Require it to verify references, requirement coverage, subgoal independence, dependencies, executable verification, and every Documentation Impact rule below.
 4. On `REVISE`, update the draft and resubmit it to the reviewer. Allow at most two revision rounds. If the second revision is not approved, set `status: blocked`, record the remaining review issues, and ask the user how to resolve them. On `BLOCKED`, do the same for the missing decision. Set `status: planned` only after `APPROVE`.
 5. Wait for each specialist's result and incorporate evidence rather than copying its output blindly.
 
@@ -41,19 +41,20 @@ Mention the fallback and recommend `$woohyuk-install-subagents`; do not block pl
 
 ## Workflow
 
-1. Identify the target repository and read its local instructions first, including `AGENTS.md`, README files, package scripts, and nearby documentation relevant to the requested feature.
+1. Identify the target repository and read its local instructions first, including `AGENTS.md`, README files, package scripts, and existing ADR, architecture, README, and changelog conventions relevant to the requested feature.
 2. Apply the Active Plan Guard before drafting or writing a new plan.
 3. Classify the goal size as `small`, `medium`, or `large` based on scope, uncertainty, touched areas, and verification cost.
 4. Identify decision points that affect implementation direction, scope, architecture, UX, data shape, dependencies, compatibility, migration strategy, or verification.
 5. Ask the user to decide required decision points before drafting the plan. Do not silently choose between meaningful alternatives.
 6. Run the architect stage from Subagent Orchestration.
 7. Break the goal into independently implementable and verifiable subgoals using repository evidence, confirmed decisions, and the architect's result. For trivial work, use one subgoal.
-8. State low-risk assumptions in the plan only when they do not materially change implementation.
-9. Derive a stable `feature_slug` in short kebab-case for Ralph's completed-plan archive.
-10. Create `.woohyuk/` at the target repository root if needed.
-11. Write the draft active plan to `.woohyuk/plan.md` with `status: draft`, then run the reviewer stage and revise as required. Change it to `planned` only after approval.
-12. Do not implement code while using this skill unless the user explicitly asks for both planning and implementation.
-13. In the final response, provide the active plan path, goal size, subgoal count, confirmed decisions, reviewer verdict, and main assumptions or open questions.
+8. Complete all four Documentation Impact rows from inspected repository evidence. Assign exact paths only when a lane is required and make path ownership pairwise-disjoint.
+9. State low-risk assumptions in the plan only when they do not materially change implementation.
+10. Derive a stable `feature_slug` in short kebab-case for Ralph's completed-plan archive.
+11. Create `.woohyuk/` at the target repository root if needed.
+12. Write the draft active plan to `.woohyuk/plan.md` with `status: draft`, then run the reviewer stage and revise as required. Change it to `planned` only after approval.
+13. Do not implement code while using this skill unless the user explicitly asks for both planning and implementation. Never write final documentation during planning. The only planning-stage documentation exception is an explicitly required, confirmed architectural decision, which may be recorded as a `Proposed` ADR at an exact path.
+14. In the final response, provide the active plan path, goal size, subgoal count, confirmed decisions, reviewer verdict, documentation impact summary, and main assumptions or open questions.
 
 ## Goal Sizing
 
@@ -84,6 +85,18 @@ Ask the user when a decision would change what gets built or how it is built.
 - Derive `feature_slug` from the requested feature in short kebab-case.
 - Korean slugs are acceptable when they are clearer for the project; replace whitespace with `-`.
 - Keep `feature_slug` stable because Ralph uses it for `docs/YYYY-MM-DD-feature-slug/plan.md` after completion.
+
+## Documentation Impact
+
+Every plan must contain exactly one row for each lane: `ADR`, `Architecture`, `README`, and `Changelog`.
+
+- `Required` is `Yes` or `No`.
+- `Owned paths` is an exact repository-relative file list for `Yes`, or `None` for `No`. Do not use globs or directory-only ownership.
+- `Reason` cites code, requirements, public behavior, or existing documentation conventions. A `No` needs affirmative evidence, not merely "not requested."
+- `Expected update` states the content to add or change, or `None` for `No`.
+- Paths must be pairwise-disjoint across required lanes. Assign a shared README, index, or release file to one lane only and mention any cross-lane content in that lane's expected update.
+
+The reviewer must return `REVISE` when a lane is missing, a `No` is unsupported, a required lane lacks exact paths, or path ownership overlaps. Planning records expected final documentation; it does not write it except for the explicit `Proposed` ADR exception above.
 
 ## Plan Format
 
@@ -138,6 +151,15 @@ feature_slug: "<feature-slug>"
 
 - <Command or manual check that validates the whole goal>
 
+## Documentation Impact
+
+| Lane | Required | Owned paths | Reason | Expected update |
+| --- | --- | --- | --- | --- |
+| ADR | Yes or No | `<exact path>` or None | <Evidence-based reason> | <Expected update or None> |
+| Architecture | Yes or No | `<exact path>` or None | <Evidence-based reason> | <Expected update or None> |
+| README | Yes or No | `<exact path>` or None | <Evidence-based reason> | <Expected update or None> |
+| Changelog | Yes or No | `<exact path>` or None | <Evidence-based reason> | <Expected update or None> |
+
 ## Progress
 
 Not started.
@@ -149,6 +171,10 @@ Not started.
 ## Open Questions
 
 - <Question, or "None">
+
+## Documentation Result
+
+Not run yet.
 
 ## Implementation Result
 
@@ -162,6 +188,7 @@ Not implemented yet.
 - Make each subgoal independently implementable and independently verifiable.
 - Do not let a subgoal depend on hidden context; include the file paths, commands, or decisions Ralph needs.
 - Tie every subgoal to a verification signal. If verification is manual, describe exactly what must be observed.
+- Include all four evidence-backed Documentation Impact rows and disjoint exact ownership before review.
 - Include file paths when known, but do not invent paths before inspecting the repository.
 - Preserve user changes and local dirty work; mention any relevant existing changes in the plan.
 - Do not let the architect or reviewer edit repository files; the parent planner owns the active plan.

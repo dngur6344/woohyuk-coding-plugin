@@ -1,145 +1,139 @@
 ---
 name: woohyuk-ralph
-description: "Implement the active .woohyuk/plan.md until all scoped subgoals are complete. Use when the user invokes Ralph, asks to execute the active plan, or wants a planned feature implemented. Delegates each subgoal to woohyuk-implementer, requires woohyuk-tester verification before advancing, updates progress, archives the completed plan and result to docs/YYYY-MM-DD-feature-slug/plan.md, then removes the active plan."
+description: "Execute the active .woohyuk/plan.md through scoped implementation, independent testing, evidence-backed parallel documentation, documentation review, and archival. Use when the user invokes Ralph or asks to implement the active plan."
 ---
 
 # Ralph
 
 ## Overview
 
-Implement the single active plan at `.woohyuk/plan.md`. Delegate each bounded subgoal to a code implementer, then require an independent tester to verify it before advancing. Keep the active file current throughout the work. After every subgoal and final verification succeed, preserve the finalized plan and implementation result under `docs/`, verify the archive, and remove the active file.
+Execute the single active plan at `.woohyuk/plan.md`. Each code subgoal has one implementer and an independent tester. After whole-plan code verification, run the required ADR, architecture, README, and changelog lanes with exact ownership, then require read-only documentation approval before marking or archiving the plan as implemented.
 
-## Active Plan Discovery
-
-1. Use `.woohyuk/plan.md` at the target repository root as the only executable plan.
-2. If it does not exist, do not execute a historical `docs/*/plan.md` file. Tell the user to create an active plan with `$woohyuk-plan` first.
-3. Treat `docs/YYYY-MM-DD-feature-slug/plan.md` files as completed historical records, not pending execution queues.
-
-## Subagent Orchestration
-
-Use these roles when multi-agent tools are available:
-
-- `woohyuk-implementer`: the only agent allowed to edit product code for the current subgoal.
-- `woohyuk-tester`: independently checks the implementation against the active plan and must not edit source code, tests, or the plan.
-
-For each subgoal:
-
-1. Spawn one implementer with a self-contained task containing the target repository, plan path, exact subgoal, owned files or behavior, repository instructions, relevant constraints, and planned verification. Wait for it to finish.
-2. Inspect the returned scope and working-tree changes. If the implementer changed unrelated files, stop and resolve ownership before testing.
-3. Spawn the tester with the target repository, active plan path, full relevant requirements, repository instructions and constraints, current subgoal, changed files, and exact verification criteria. Require `PASS`, `FAIL`, or `BLOCKED` plus reproducible evidence.
-4. On `FAIL`, send the tester's evidence back to the same implementer when possible. Have it fix only the current subgoal, then run the tester again.
-5. Allow at most three implementation-and-test attempts for a subgoal, counting the initial attempt. If the third tester verdict is still `FAIL`, set the active plan to `blocked`, preserve the failed evidence and incomplete subgoal, and ask the user for direction. Never accept the implementer's self-verification in place of tester evidence.
-6. Keep only one code-writing agent active at a time. Testing may start only after that writer has finished, preventing shared-worktree conflicts.
-
-After every subgoal passes, run the tester once more with the target repository, repository instructions, entire active plan, cumulative changed files, and `## Final Verification`. On `FAIL`, return the evidence to an implementer responsible for the affected scope, then rerun the tester. Allow at most three final implementation-and-test attempts, counting the initial final verification; if the third verdict is still `FAIL`, set the plan to `blocked` and preserve the evidence. Archive only after the final verdict is `PASS`.
-
-When spawning a named specialist, set `fork_turns: "none"` and provide a self-contained prompt instead of relying on inherited conversation context. If a named role is unavailable, use a generic subagent with the same role contract and explicitly select these settings:
-
-- Implementer fallback: `gpt-5.6-sol`, `xhigh`, workspace write.
-- Tester fallback: `gpt-5.6-terra`, `high`; allow test artifacts but prohibit source edits.
-
-Mention the fallback and recommend `$woohyuk-install-subagents`; do not abandon an active plan solely because named roles have not been installed.
-
-## Workflow
-
-1. Read `.woohyuk/plan.md` completely.
-2. Read repository instructions and relevant files before editing, including `AGENTS.md`, README files, package scripts, and files named in the plan.
-3. Check the working tree status. Do not revert unrelated user changes.
-4. If the plan is stale, technically wrong, or lacks verifiable subgoals, update the active plan first or explain the mismatch before implementing.
-5. Set frontmatter `status: in-progress` and update `updated` before substantial edits.
-6. Build the execution queue from `## Subgoals`. If the plan only has `## Implementation Steps`, treat each unchecked item as a subgoal and normalize the plan when useful.
-7. Execute exactly one open subgoal at a time through Subagent Orchestration. Do not start the next subgoal while the current subgoal is unverified.
-8. For the current subgoal:
-   - Have the implementer change only the work needed for that subgoal.
-   - Have the tester run its `Verify` check and any focused regression scenarios warranted by the change.
-   - If verification fails, return the evidence to the implementer, fix within the same subgoal scope, and have the tester rerun verification.
-   - Repeat for at most three attempts until the subgoal passes, is proven obsolete by repository evidence, or is blocked. Treat a third `FAIL` as blocked and record all failure evidence.
-9. Mark a subgoal complete only after the tester returns `PASS`. The tester must perform any required manual check with the available interaction tools; if it cannot perform the check, return `BLOCKED` rather than treating it as complete.
-10. After each completed or blocked subgoal, update the active plan checklist and `updated`, then append a dated short note under `## Progress`.
-11. Continue the loop until every required subgoal is complete.
-12. Have the tester run `## Final Verification` against the whole plan after all subgoals are complete. If it fails, return to the relevant implementer scope, fix it, and have the tester rerun final verification, for at most three total final verification attempts. Treat a third `FAIL` as blocked and preserve the evidence.
-13. When all subgoals and final verification are complete, update the active plan frontmatter:
-    - `status: implemented`
-    - `updated: YYYY-MM-DD`
-    - `implemented_at: YYYY-MM-DD`
-14. Replace or append `## Implementation Result` with the actual outcome.
-15. Archive and clean up the active plan by following Completed Plan Archival. Do not report Ralph complete before archival succeeds.
-
-## Loop Rule
-
-Ralph's core loop is:
+The normal state machine is:
 
 ```text
-pick next open subgoal
-implementer changes only that subgoal
-tester independently verifies that subgoal
-if verification fails and fewer than three attempts ran: implementer fixes, tester verifies again
-if the third verification fails: preserve evidence, mark the plan blocked, ask the user
-if verification passes: mark subgoal complete and update .woohyuk/plan.md
-move to the next subgoal
-after all subgoals pass: tester runs final verification
-archive the finalized plan, then remove the active plan
+planned -> in-progress -> code-verified -> documenting -> docs-review -> implemented
 ```
 
-Never skip to a later subgoal because the earlier one is difficult. Never run multiple implementers against the shared worktree. Stop as blocked only when progress requires user input, missing credentials, unavailable external systems, a plan decision that cannot be safely made from repository evidence, or three evidence-backed implementation-and-test attempts fail for the same subgoal or final verification.
+Any blocked condition retains the active plan. Only the parent running Ralph may edit `.woohyuk/plan.md` or its dated archive.
 
-## Implementation Result Format
+## Active Plan
 
-Use this shape:
+1. Execute only `.woohyuk/plan.md` at the target repository root. Historical `docs/*/plan.md` files are not queues.
+2. Read the complete plan, repository instructions, named files, package scripts, and relevant docs before changing status.
+3. Check the working tree and preserve unrelated user changes.
+4. Require verifiable subgoals plus all four Documentation Impact lanes. Normalize a legacy plan from repository evidence before implementation; stop for any unresolved implementation or documentation decision.
+5. Set `status: in-progress` and update `updated` before code changes.
 
-```markdown
-## Implementation Result
+## Roles
 
-Implemented on YYYY-MM-DD.
+- `woohyuk-implementer`: the only product-code writer for one current subgoal.
+- `woohyuk-tester`: independent subgoal, affected-scope, and whole-plan verification.
+- `woohyuk-adr-documenter`: uses `$woohyuk-write-adr`.
+- `woohyuk-architecture-documenter`: uses `$woohyuk-document-project-architecture`.
+- `woohyuk-readme-documenter`: uses `$woohyuk-maintain-readme`.
+- `woohyuk-changelog-documenter`: uses `$woohyuk-update-changelog`.
+- `woohyuk-reviewer`: read-only `DOC_REVIEW`.
 
-### Summary
+Spawn every named role with `fork_turns: "none"` and a self-contained prompt containing the repository, active plan, confirmed requirements, repository instructions, exact task and owned paths, relevant diff, and verification evidence. Wait for every result used by the state machine.
 
-- <What changed.>
+If a named role is unavailable, use a generic agent with the same contract and settings:
 
-### Completed Subgoals
+| Role | Model | Effort | Access |
+| --- | --- | --- | --- |
+| Implementer | `gpt-5.6-sol` | `xhigh` | workspace write |
+| Tester | `gpt-5.6-terra` | `high` | test artifacts only; no source, tests, or plan edits |
+| ADR documenter | `gpt-5.6-sol` | `xhigh` | exact documentation paths only |
+| Architecture documenter | `gpt-5.6-sol` | `xhigh` | exact documentation paths only |
+| README documenter | `gpt-5.6-terra` | `high` | exact documentation paths only |
+| Changelog documenter | `gpt-5.6-terra` | `medium` | exact documentation paths only |
+| Reviewer | `gpt-5.6-sol` | `xhigh` | read-only |
 
-- [x] SG1: <Verified result>
+Disclose a fallback and recommend `$woohyuk-install-subagents`, but do not abandon an active plan only because a named role is unavailable.
 
-### Changed Files
+## Code Loop
 
-- `<path>`: <Reason>
+Execute one open subgoal at a time:
 
-### Verification
+1. Give one implementer the exact subgoal, scope, ownership, and verification.
+2. Inspect its result and working-tree changes. Stop and resolve any out-of-scope change without reverting unrelated work.
+3. Give a tester the subgoal requirements, changed files, and reproducible acceptance criteria.
+4. On `FAIL`, return the evidence to the same implementer when possible, then retest. Allow at most three implementation-and-test attempts per subgoal, including the initial attempt.
+5. Mark the subgoal complete only on tester `PASS`; update its checklist and append concise dated progress. A third `FAIL` or a tester `BLOCKED` blocks the plan.
 
-- `<command or check>`: passed
-- `<manual scenario>`: passed
+Keep only one code writer active. A tester starts after that writer finishes and must perform required available manual checks rather than assuming success.
 
-### Follow-ups
+## Whole-Code Verification
 
-- <Remaining item, or "None">
-```
+After all subgoals pass, have the tester verify the entire plan and `## Final Verification`. This is whole-code-verification cycle 1. A cycle is one whole-plan tester run after the latest code state; allow at most three cycles total, including the initial one and all later runs caused by `DOC_REVIEW CODE_DEFECT`.
 
-## Completed Plan Archival
+- On whole-plan `FAIL`, reopen the owning subgoal, have an implementer fix it, test the affected scope, then run the next whole-plan cycle.
+- On `BLOCKED`, or if cycle 3 does not pass, block the plan and retain the evidence.
+- On `PASS`, set `status: code-verified`, record the cycle evidence, and continue to Documentation Impact Resolution.
+- Every code edit invalidates prior documentation output and approval. Set `## Documentation Result` to `Not run yet.` and rerun every required documentation lane after the next whole-plan `PASS`.
 
-Archive only after all required subgoals and final verification pass.
+## Documentation Impact Resolution
 
-1. Use the local completion date and the active plan's `feature_slug` to build `docs/YYYY-MM-DD-feature-slug/plan.md`.
-2. If `feature_slug` is missing in an older active plan, derive it from the title and add it to the frontmatter before archiving.
-3. If the target archive file already exists, do not overwrite it silently. Ask the user whether to update that record or use a distinct feature slug.
-4. Create the dated directory and write the entire finalized active plan to its `plan.md`, including decisions, checked subgoals, progress, and `## Implementation Result`.
-5. Verify that the archive exists and contains `status: implemented`, all required completed subgoals, and the final verification result.
-6. Delete `.woohyuk/plan.md` only after the archive passes verification.
-7. Remove `.woohyuk/` if it is empty. Preserve any other user files in that directory.
+After each whole-plan `PASS`, reconcile the plan's four lanes against the actual final working-tree diff, including staged and untracked content, confirmed requirements, test evidence, and repository conventions. A planned `No` does not override evidence that the implementation made documentation stale.
 
-The archive is the durable implementation record. Never delete the active plan first, and never leave completion recorded only in `.woohyuk/plan.md`.
+For each of `ADR`, `Architecture`, `README`, and `Changelog`, retain:
 
-## Incomplete Or Blocked Work
+- `Required: Yes|No`
+- exact repository-relative `Owned paths`, or `None`
+- an evidence-based `Reason`
+- the `Expected update`, or `None`
 
-Do not archive or delete the active plan when required work or verification is incomplete.
+Required paths must name files, not globs or bare directories. Make ownership globally pairwise-disjoint across every lane and batch before spawning writers. A shared README, index, or release file belongs to exactly one lane, whose Expected update must include all cross-lane content for that file. Never transfer or duplicate ownership to let another lane edit the same path.
 
-If blocked:
+Even when every lane is `No`, proceed to `DOC_REVIEW` so the reviewer validates the classification against the actual diff.
 
-- Set `status: blocked` or leave the prior status if the plan convention requires it.
-- Leave incomplete subgoals unchecked.
-- Add the blocker under `## Implementation Result`.
-- State the exact user input, dependency, or external condition needed to proceed.
-- Keep `.woohyuk/plan.md` so Ralph can resume later.
+## Documentation Batch
+
+Set `status: documenting` after impact resolution, including when every lane is `No`. The parent makes this plan edit before any batch baseline and does not edit the plan while writers run.
+
+For required lanes:
+
+1. Capture a pre-batch baseline: `git status --porcelain=v1 -uall`, the current `HEAD`, and content hashes for every already changed or untracked path plus every allocated path that exists. Preserve it with the batch evidence.
+2. Spawn the required documenters in parallel as capacity permits. Each prompt must include its exact disjoint paths, the active plan, confirmed requirements, final implementation diff, whole-plan tester evidence, and repository instructions. A documenter may write only its allocation and may never edit code, tests, the active plan, or the dated plan archive.
+3. Wait for all writers. A writer `BLOCKED` blocks the plan; do not substitute guessed documentation.
+4. Compare post-batch status and hashes with the baseline. Verify that `HEAD` is unchanged, every writer-reported path is allocated, and no path outside the allocated union changed during the batch. If the check fails, block the plan, preserve the evidence, and do not silently revert files.
+5. Run focused formatting, link, command, or document checks warranted by the changed docs.
+
+Capacity limits may split globally disjoint lanes into multiple parallel batches; take a fresh baseline for each batch. Overlapping ownership is invalid and must be reassigned before spawning. When no lane is required, record the no-op documenting stage and continue directly to review.
+
+## Documentation Review Loop
+
+Set `status: docs-review`, then spawn `woohyuk-reviewer` in `DOC_REVIEW` mode with the complete plan, four lane decisions, confirmed requirements, final diff, whole-plan test evidence, writer results, changed docs, and ownership map.
+
+- `APPROVE`: replace `## Documentation Result` with an `APPROVE` result containing reviewed lanes, changed documentation paths, and verification evidence. Only now may Ralph mark the plan implemented.
+- `REVISE`: rerun only the implicated documentation lanes. Run them concurrently when paths are disjoint, using a fresh baseline and the same containment checks, then resubmit all docs for review. Allow at most two revision rounds; if the third review still returns `REVISE`, block the plan.
+- `CODE_DEFECT`: accept this only for implementation that conflicts with a confirmed requirement and requires an owning code subgoal, code path, requirement, and evidence. If three whole-code-verification cycles have already run, block before another code edit. Otherwise reopen that subgoal, set `status: in-progress`, use the implementer, test the affected scope, and run the next whole-code-verification cycle. Any code edit invalidates all documentation and approval; after `PASS`, recompute the lanes and rerun every required lane before a fresh review.
+- `BLOCKED`: record the missing decision or external evidence, set `status: blocked`, and retain the active plan.
+
+The reviewer must identify the owning lane, exact path, and evidence for every documentation finding. A stale, missing, or incorrect document is `REVISE`, never `CODE_DEFECT`. Reset the two-round documentation revision allowance after a code edit because all documentation evidence is invalidated.
+
+## Completion And Archival
+
+After and only after `DOC_REVIEW APPROVE`:
+
+1. Set `status: implemented`, `updated: YYYY-MM-DD`, and `implemented_at: YYYY-MM-DD`.
+2. Update `## Implementation Result` with the actual summary, completed subgoals, code and documentation files, tester evidence, documentation approval, and follow-ups.
+3. Build `docs/YYYY-MM-DD-feature-slug/plan.md`. If the path exists, ask before overwriting or choose a user-approved distinct slug.
+4. Write the entire finalized plan to the archive. The parent is the only archive writer.
+5. Verify the archive contains `status: implemented`, all required checked subgoals, successful whole-plan verification, and `## Documentation Result` with `APPROVE`.
+6. Delete `.woohyuk/plan.md` only after that verification passes; remove `.woohyuk/` only if empty.
+
+Never mark `implemented`, set `implemented_at`, archive, or delete the active plan before documentation approval.
+
+## Blocked Work
+
+On a bounded-attempt exhaustion, ownership violation, unresolved decision, unavailable required evidence, writer `BLOCKED`, tester `BLOCKED`, or reviewer `BLOCKED`:
+
+- set `status: blocked`;
+- leave incomplete or reopened subgoals unchecked;
+- record the exact evidence and required next action under `## Implementation Result`;
+- retain `.woohyuk/plan.md` and do not archive.
 
 ## Final Response
 
-Summarize the implemented behavior, completed subgoals, changed files, verification result, and archive path. Confirm that `.woohyuk/plan.md` was removed. Mention any checks that could not run.
+Report completed subgoals, code and documentation files, whole-plan test cycles, documentation review verdict, archive path, and active-plan removal. Mention every check that could not run.

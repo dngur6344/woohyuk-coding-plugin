@@ -1,4 +1,4 @@
 interface:
   display_name: "Woohyuk Install Subagents"
-  short_description: "Install eight Woohyuk specialist roles for Codex."
-  default_prompt: "Use $woohyuk-install-subagents to install all eight bundled specialist roles."
+  short_description: "Install ten Woohyuk specialist roles for Codex."
+  default_prompt: "Use $woohyuk-install-subagents to install all ten bundled specialist roles."

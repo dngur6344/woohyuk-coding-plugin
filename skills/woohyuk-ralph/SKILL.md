@@ -27,7 +27,7 @@ Any blocked condition retains the active plan. Only the parent running Ralph may
 
 ## Roles
 
-- `woohyuk-implementer`: the only product-code writer for one current subgoal.
+- Selected implementer: the only product-code writer for one current subgoal. Model Routing selects `woohyuk-astra-implementer` or `woohyuk-implementer` once for the Ralph run.
 - `woohyuk-tester`: independent subgoal, affected-scope, and whole-plan verification.
 - `woohyuk-adr-documenter`: uses `$woohyuk-write-adr`.
 - `woohyuk-architecture-documenter`: uses `$woohyuk-document-project-architecture`.
@@ -41,7 +41,8 @@ If a named role is unavailable, use a generic agent with the same contract and s
 
 | Role | Model | Effort | Access |
 | --- | --- | --- | --- |
-| Implementer | `gpt-5.6-sol` | `xhigh` | workspace write |
+| Astra implementer | `gpt-6-astra` | `xhigh` | workspace write |
+| Standard implementer | `gpt-5.6-sol` | `xhigh` | workspace write |
 | Tester | `gpt-5.6-terra` | `high` | test artifacts only; no source, tests, or plan edits |
 | ADR documenter | `gpt-5.6-sol` | `xhigh` | exact documentation paths only |
 | Architecture documenter | `gpt-5.6-sol` | `xhigh` | exact documentation paths only |
@@ -51,11 +52,21 @@ If a named role is unavailable, use a generic agent with the same contract and s
 
 Disclose a fallback and recommend `$woohyuk-install-subagents`, but do not abandon an active plan only because a named role is unavailable.
 
+## Model Routing
+
+Resolve the root session's actual model once before the first code subgoal. Run `python3 ../woohyuk-install-subagents/scripts/resolve_current_model.py`, resolving the path relative to this skill directory.
+
+- When it returns `status: detected` and `model: gpt-6-astra`, use `woohyuk-astra-implementer` at `xhigh` for every initial implementation and retry in this Ralph run.
+- For every other model or `status: unknown`, use the existing `woohyuk-implementer` at `gpt-5.6-sol`, `xhigh`.
+- Keep tester, reviewer, and all documenter models unchanged in both profiles.
+- Do not infer the active model from `~/.codex/config.toml`; a session-level model selection may override that default.
+- Record the selected profile and implementer role in Ralph's final response.
+
 ## Code Loop
 
 Execute one open subgoal at a time:
 
-1. Give one implementer the exact subgoal, scope, ownership, and verification.
+1. Give the selected implementer the exact subgoal, scope, ownership, and verification.
 2. Inspect its result and working-tree changes. Stop and resolve any out-of-scope change without reverting unrelated work.
 3. Give a tester the subgoal requirements, changed files, and reproducible acceptance criteria.
 4. On `FAIL`, return the evidence to the same implementer when possible, then retest. Allow at most three implementation-and-test attempts per subgoal, including the initial attempt.

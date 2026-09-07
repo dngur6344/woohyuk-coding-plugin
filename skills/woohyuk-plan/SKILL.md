@@ -26,7 +26,7 @@ Check for `.woohyuk/plan.md` before planning new work.
 
 Use both specialist roles for every new plan when multi-agent tools are available. They run sequentially because review depends on the draft.
 
-1. Spawn `woohyuk-architect` after implementation-affecting user decisions are confirmed. Give it a self-contained task containing the requirements, target repository, constraints, relevant evidence, and decisions. Ask for design boundaries, flow, risks, and suggested subgoals. Keep it read-only.
+1. Resolve the current root session model with the Model Routing rules below, then spawn the selected architect after implementation-affecting user decisions are confirmed. Give it a self-contained task containing the requirements, target repository, constraints, relevant evidence, and decisions. Ask for design boundaries, flow, risks, and suggested subgoals. Keep it read-only.
 2. Synthesize the architect's evidence into the draft plan. The parent planner alone writes `.woohyuk/plan.md` with `status: draft` while review is pending.
 3. Spawn `woohyuk-reviewer` in `PLAN_REVIEW` mode with the requirements and draft path. Require it to verify references, requirement coverage, subgoal independence, dependencies, executable verification, and every Documentation Impact rule below.
 4. On `REVISE`, update the draft and resubmit it to the reviewer. Allow at most two revision rounds. If the second revision is not approved, set `status: blocked`, record the remaining review issues, and ask the user how to resolve them. On `BLOCKED`, do the same for the missing decision. Set `status: planned` only after `APPROVE`.
@@ -34,10 +34,21 @@ Use both specialist roles for every new plan when multi-agent tools are availabl
 
 When spawning a named specialist, set `fork_turns: "none"` and provide a self-contained prompt instead of relying on inherited conversation context. If a named role is unavailable, use a generic read-only subagent with the same role contract and explicitly select these settings:
 
-- Architect fallback: `gpt-5.6-sol`, `xhigh`.
+- Astra architect fallback: `gpt-6-astra`, `xhigh` when the resolved root model is exactly `gpt-6-astra`.
+- Standard architect fallback: `gpt-5.6-sol`, `xhigh` for every other or unknown root model.
 - Reviewer fallback: `gpt-5.6-sol`, `xhigh`.
 
 Mention the fallback and recommend `$woohyuk-install-subagents`; do not block planning solely because named roles have not been installed. If no subagent can run, the parent must execute the same architect and reviewer contracts, disclose that fallback, and must not mark the plan `planned` without completing the review contract.
+
+## Model Routing
+
+Resolve the root session's actual model once before spawning the architect. Run `python3 ../woohyuk-install-subagents/scripts/resolve_current_model.py`, resolving the path relative to this skill directory.
+
+- When it returns `status: detected` and `model: gpt-6-astra`, use `woohyuk-astra-architect` at `xhigh`.
+- For every other model or `status: unknown`, use the existing `woohyuk-architect` at `gpt-5.6-sol`, `xhigh`.
+- Keep `woohyuk-reviewer` at `gpt-5.6-sol`, `xhigh` in both profiles.
+- Do not infer the active model from `~/.codex/config.toml`; a session-level model selection may override that default.
+- Record the selected profile and architect role in the final response.
 
 ## Workflow
 

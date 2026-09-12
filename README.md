@@ -59,8 +59,8 @@ codex plugin add woohyuk-coding-plugin@woohyuk
 | --- | --- | --- |
 | `woohyuk-architect` | `gpt-5.6-sol` / `xhigh` | Read-only architecture, boundaries, flow, risks, and implementation guidance. |
 | `woohyuk-implementer` | `gpt-5.6-sol` / `xhigh` | Implement one explicitly owned Ralph subgoal at a time. |
-| `woohyuk-astra-architect` | `gpt-6-astra` / `xhigh` | Plan-stage architect selected when the root session uses GPT-6 Astra. |
-| `woohyuk-astra-implementer` | `gpt-6-astra` / `xhigh` | Ralph implementer selected when the root session uses GPT-6 Astra. |
+| `woohyuk-astra-architect` | `gpt-6-astra` / `medium` | Plan-stage architect selected when the root session uses GPT-6 Astra. |
+| `woohyuk-astra-implementer` | `gpt-6-astra` / `medium` | Ralph implementer selected when the root session uses GPT-6 Astra. |
 | `woohyuk-reviewer` | `gpt-5.6-sol` / `xhigh` | Read-only plan, code, and final documentation review. |
 | `woohyuk-tester` | `gpt-5.6-terra` / `high` | Independently test requirements and return reproducible pass or fail evidence. |
 | `woohyuk-adr-documenter` | `gpt-5.6-sol` / `xhigh` | Write only assigned ADR paths from the final diff and test evidence. |
@@ -68,9 +68,9 @@ codex plugin add woohyuk-coding-plugin@woohyuk
 | `woohyuk-readme-documenter` | `gpt-5.6-terra` / `high` | Update only assigned README paths from verified behavior. |
 | `woohyuk-changelog-documenter` | `gpt-5.6-terra` / `medium` | Update only assigned changelog or release-note paths. |
 
-`$woohyuk-plan` asks the architect to propose a codebase-aligned design, writes the draft in the main thread, and has the reviewer validate it. When the root session's actual model is `gpt-6-astra`, it selects `woohyuk-astra-architect`; otherwise it retains `woohyuk-architect` on `gpt-5.6-sol`. Every plan records `Yes` or `No`, exact owned paths, an evidence-based reason, and the expected update for ADR, architecture, README, and changelog lanes. The planner normally leaves final documentation to Ralph.
+`$woohyuk-plan` asks the architect to propose a codebase-aligned design, writes the draft in the main thread, and has the reviewer validate it. When the root session's actual model is `gpt-6-astra`, it selects `woohyuk-astra-architect`; otherwise it retains `woohyuk-architect` on `gpt-5.6-sol`. Astra specialist substitutions use two lower reasoning levels than the equivalent GPT-5.6 Sol role (`xhigh` to `medium`, `high` to `low`). Every plan records `Yes` or `No`, exact owned paths, an evidence-based reason, and the expected update for ADR, architecture, README, and changelog lanes. The planner normally leaves final documentation to Ralph.
 
-`$woohyuk-ralph` selects `woohyuk-astra-implementer` when the root session's actual model is `gpt-6-astra`; otherwise it retains `woohyuk-implementer` on `gpt-5.6-sol`. It advances each code subgoal only after tester `PASS`, then reconciles the four documentation lanes against the actual diff. Required documenters run in parallel as capacity permits, and the read-only reviewer must return `DOC_REVIEW APPROVE` before archival. Documentation defects rerun only implicated lanes; a confirmed code defect reopens code and invalidates all prior documentation evidence.
+`$woohyuk-ralph` selects `woohyuk-astra-implementer` when the root session's actual model is `gpt-6-astra`; otherwise it retains `woohyuk-implementer` on `gpt-5.6-sol`. The same two-step-lower Astra reasoning policy applies to implementation. It advances each code subgoal only after tester `PASS`, then reconciles the four documentation lanes against the actual diff. Required documenters run in parallel as capacity permits, and the read-only reviewer must return `DOC_REVIEW APPROVE` before archival. Documentation defects rerun only implicated lanes; a confirmed code defect reopens code and invalidates all prior documentation evidence.
 
 The routing helper reads the active session record identified by `CODEX_SESSION_ID` or `CODEX_THREAD_ID`. It does not use the default model in `~/.codex/config.toml`, because a session-level model selection may differ. If the active model cannot be resolved, both workflows use the existing GPT-5.6 roles.
 

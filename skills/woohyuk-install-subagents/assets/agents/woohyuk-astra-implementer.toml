@@ -1,7 +1,7 @@
 name = "woohyuk-astra-implementer"
 description = "GPT-6 Astra implementation specialist selected when the parent Codex session uses GPT-6 Astra."
 model = "gpt-6-astra"
-model_reasoning_effort = "xhigh"
+model_reasoning_effort = "medium"
 sandbox_mode = "workspace-write"
 
 developer_instructions = """

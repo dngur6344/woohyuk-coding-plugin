@@ -41,7 +41,7 @@ If a named role is unavailable, use a generic agent with the same contract and s
 
 | Role | Model | Effort | Access |
 | --- | --- | --- | --- |
-| Astra implementer | `gpt-6-astra` | `xhigh` | workspace write |
+| Astra implementer | `gpt-6-astra` | `medium` | workspace write |
 | Standard implementer | `gpt-5.6-sol` | `xhigh` | workspace write |
 | Tester | `gpt-5.6-terra` | `high` | test artifacts only; no source, tests, or plan edits |
 | ADR documenter | `gpt-5.6-sol` | `xhigh` | exact documentation paths only |
@@ -56,9 +56,11 @@ Disclose a fallback and recommend `$woohyuk-install-subagents`, but do not aband
 
 Resolve the root session's actual model once before the first code subgoal. Run `python3 ../woohyuk-install-subagents/scripts/resolve_current_model.py`, resolving the path relative to this skill directory.
 
-- When it returns `status: detected` and `model: gpt-6-astra`, use `woohyuk-astra-implementer` at `xhigh` for every initial implementation and retry in this Ralph run.
+- When it returns `status: detected` and `model: gpt-6-astra`, use `woohyuk-astra-implementer` at `medium` for every initial implementation and retry in this Ralph run.
 - For every other model or `status: unknown`, use the existing `woohyuk-implementer` at `gpt-5.6-sol`, `xhigh`.
+- For an Astra specialist substitution, lower the equivalent GPT-5.6 Sol effort by two steps: `xhigh` becomes `medium`, and `high` becomes `low`.
 - Keep tester, reviewer, and all documenter models unchanged in both profiles.
+- Do not change the root session's effort or the effort of specialists that remain on non-Astra models.
 - Do not infer the active model from `~/.codex/config.toml`; a session-level model selection may override that default.
 - Record the selected profile and implementer role in Ralph's final response.
 

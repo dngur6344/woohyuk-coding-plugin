@@ -1,6 +1,6 @@
 {
   "name": "woohyuk-coding-plugin",
-  "version": "0.10.0",
+  "version": "0.10.2",
   "description": "Personal Codex workflows and ten specialized agents for planning, implementation, testing, review, evidence-backed documentation, design implementation, PRs, releases, and LLM wiki lookup.",
   "author": {
     "name": "woohyuk",

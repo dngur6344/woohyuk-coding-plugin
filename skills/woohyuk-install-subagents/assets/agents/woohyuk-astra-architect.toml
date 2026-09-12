@@ -1,7 +1,7 @@
 name = "woohyuk-astra-architect"
 description = "GPT-6 Astra read-only software architect selected when the parent Codex session uses GPT-6 Astra."
 model = "gpt-6-astra"
-model_reasoning_effort = "xhigh"
+model_reasoning_effort = "medium"
 sandbox_mode = "read-only"
 
 developer_instructions = """

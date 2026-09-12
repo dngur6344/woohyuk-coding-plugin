@@ -59,8 +59,8 @@ codex plugin add woohyuk-coding-plugin@woohyuk
 | --- | --- | --- |
 | `woohyuk-architect` | `gpt-5.6-sol` / `xhigh` | 읽기 전용으로 아키텍처, 경계, 흐름, 위험과 구현 방향을 설계합니다. |
 | `woohyuk-implementer` | `gpt-5.6-sol` / `xhigh` | 명확하게 할당받은 Ralph 소목표 하나를 구현합니다. |
-| `woohyuk-astra-architect` | `gpt-6-astra` / `xhigh` | 루트 세션이 GPT-6 Astra일 때 선택되는 계획 단계 설계자입니다. |
-| `woohyuk-astra-implementer` | `gpt-6-astra` / `xhigh` | 루트 세션이 GPT-6 Astra일 때 선택되는 Ralph 구현자입니다. |
+| `woohyuk-astra-architect` | `gpt-6-astra` / `medium` | 루트 세션이 GPT-6 Astra일 때 선택되는 계획 단계 설계자입니다. |
+| `woohyuk-astra-implementer` | `gpt-6-astra` / `medium` | 루트 세션이 GPT-6 Astra일 때 선택되는 Ralph 구현자입니다. |
 | `woohyuk-reviewer` | `gpt-5.6-sol` / `xhigh` | 읽기 전용으로 계획, 코드, 최종 문서를 검토합니다. |
 | `woohyuk-tester` | `gpt-5.6-terra` / `high` | 요구사항을 독립적으로 테스트하고 재현 가능한 통과 또는 실패 근거를 반환합니다. |
 | `woohyuk-adr-documenter` | `gpt-5.6-sol` / `xhigh` | 최종 diff와 테스트 근거를 바탕으로 할당된 ADR 경로만 작성합니다. |
@@ -68,9 +68,9 @@ codex plugin add woohyuk-coding-plugin@woohyuk
 | `woohyuk-readme-documenter` | `gpt-5.6-terra` / `high` | 검증된 동작을 바탕으로 할당된 README 경로만 업데이트합니다. |
 | `woohyuk-changelog-documenter` | `gpt-5.6-terra` / `medium` | 할당된 변경 기록 또는 릴리스 노트 경로만 업데이트합니다. |
 
-`$woohyuk-plan`은 설계자에게 코드베이스에 맞는 설계를 요청하고 메인 스레드에서 초안을 작성한 뒤 리뷰어에게 검증받습니다. 루트 세션의 실제 모델이 `gpt-6-astra`이면 `woohyuk-astra-architect`를 선택하고, 그 밖에는 기존 `gpt-5.6-sol` 기반 `woohyuk-architect`를 유지합니다. 모든 계획은 ADR, 아키텍처, README, 변경 기록 레인마다 `Yes` 또는 `No`, 정확한 소유 경로, 근거 기반 이유, 예상 업데이트를 기록합니다. 계획 단계에서는 일반적으로 최종 문서를 작성하지 않습니다.
+`$woohyuk-plan`은 설계자에게 코드베이스에 맞는 설계를 요청하고 메인 스레드에서 초안을 작성한 뒤 리뷰어에게 검증받습니다. 루트 세션의 실제 모델이 `gpt-6-astra`이면 `woohyuk-astra-architect`를 선택하고, 그 밖에는 기존 `gpt-5.6-sol` 기반 `woohyuk-architect`를 유지합니다. Astra 전문 역할로 대체할 때에는 동등한 GPT-5.6 Sol 역할보다 reasoning을 두 단계 낮춰 적용합니다(`xhigh`에서 `medium`, `high`에서 `low`). 모든 계획은 ADR, 아키텍처, README, 변경 기록 레인마다 `Yes` 또는 `No`, 정확한 소유 경로, 근거 기반 이유, 예상 업데이트를 기록합니다. 계획 단계에서는 일반적으로 최종 문서를 작성하지 않습니다.
 
-`$woohyuk-ralph`는 루트 세션의 실제 모델이 `gpt-6-astra`이면 `woohyuk-astra-implementer`를 선택하고, 그 밖에는 기존 `gpt-5.6-sol` 기반 `woohyuk-implementer`를 유지합니다. 테스터가 `PASS`를 반환한 경우에만 각 코드 소목표를 진행하고, 마지막에는 실제 diff를 기준으로 네 문서화 레인을 다시 판단합니다. 필요한 문서 작성자는 용량이 허용되는 범위에서 병렬로 실행하며, 읽기 전용 리뷰어가 `DOC_REVIEW APPROVE`를 반환해야 보관할 수 있습니다. 문서 결함은 관련 레인만 다시 실행하고, 확정된 코드 결함은 코드를 다시 열어 이전 문서 근거를 모두 무효화합니다.
+`$woohyuk-ralph`는 루트 세션의 실제 모델이 `gpt-6-astra`이면 `woohyuk-astra-implementer`를 선택하고, 그 밖에는 기존 `gpt-5.6-sol` 기반 `woohyuk-implementer`를 유지합니다. 구현에도 동일한 Astra reasoning 두 단계 하향 정책을 적용합니다. 테스터가 `PASS`를 반환한 경우에만 각 코드 소목표를 진행하고, 마지막에는 실제 diff를 기준으로 네 문서화 레인을 다시 판단합니다. 필요한 문서 작성자는 용량이 허용되는 범위에서 병렬로 실행하며, 읽기 전용 리뷰어가 `DOC_REVIEW APPROVE`를 반환해야 보관할 수 있습니다. 문서 결함은 관련 레인만 다시 실행하고, 확정된 코드 결함은 코드를 다시 열어 이전 문서 근거를 모두 무효화합니다.
 
 모델 분기 도우미는 `CODEX_SESSION_ID` 또는 `CODEX_THREAD_ID`가 가리키는 활성 세션 기록을 읽습니다. 세션별 모델 선택이 기본 설정과 다를 수 있으므로 `~/.codex/config.toml`의 기본 모델은 사용하지 않습니다. 활성 모델을 확인할 수 없으면 두 워크플로 모두 기존 GPT-5.6 역할을 사용합니다.
 

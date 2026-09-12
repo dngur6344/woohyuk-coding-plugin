@@ -13,8 +13,8 @@ Install the ten bundled custom-agent TOML files into a Codex-supported agent dir
 
 - `woohyuk-architect`: read-only system and implementation design with `gpt-5.6-sol` at `xhigh`.
 - `woohyuk-implementer`: scoped code implementation with `gpt-5.6-sol` at `xhigh`.
-- `woohyuk-astra-architect`: read-only system and implementation design with `gpt-6-astra` at `xhigh`, selected only when the root session uses Astra.
-- `woohyuk-astra-implementer`: scoped code implementation with `gpt-6-astra` at `xhigh`, selected only when the root session uses Astra.
+- `woohyuk-astra-architect`: read-only system and implementation design with `gpt-6-astra` at `medium`, selected only when the root session uses Astra.
+- `woohyuk-astra-implementer`: scoped code implementation with `gpt-6-astra` at `medium`, selected only when the root session uses Astra.
 - `woohyuk-reviewer`: read-only plan, code, and documentation review with `gpt-5.6-sol` at `xhigh`.
 - `woohyuk-tester`: requirement-driven verification with `gpt-5.6-terra` at `high`.
 - `woohyuk-adr-documenter`: scoped ADR updates with `gpt-5.6-sol` at `xhigh`.

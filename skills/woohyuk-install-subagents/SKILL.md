@@ -11,16 +11,16 @@ Install the ten bundled custom-agent TOML files into a Codex-supported agent dir
 
 ## Roles
 
-- `woohyuk-architect`: read-only system and implementation design with `gpt-5.6-sol` at `xhigh`.
-- `woohyuk-implementer`: scoped code implementation with `gpt-5.6-sol` at `xhigh`.
+- `woohyuk-architect`: read-only system and implementation design with `gpt-6-sol` at `xhigh`.
+- `woohyuk-implementer`: scoped code implementation with `gpt-6-sol` at `xhigh`.
 - `woohyuk-astra-architect`: read-only system and implementation design with `gpt-6-astra` at `medium`, selected only when the root session uses Astra.
 - `woohyuk-astra-implementer`: scoped code implementation with `gpt-6-astra` at `medium`, selected only when the root session uses Astra.
-- `woohyuk-reviewer`: read-only plan, code, and documentation review with `gpt-5.6-sol` at `xhigh`.
-- `woohyuk-tester`: requirement-driven verification with `gpt-5.6-terra` at `high`.
-- `woohyuk-adr-documenter`: scoped ADR updates with `gpt-5.6-sol` at `xhigh`.
-- `woohyuk-architecture-documenter`: scoped architecture docs with `gpt-5.6-sol` at `xhigh`.
-- `woohyuk-readme-documenter`: scoped README updates with `gpt-5.6-terra` at `high`.
-- `woohyuk-changelog-documenter`: scoped changelog updates with `gpt-5.6-terra` at `medium`.
+- `woohyuk-reviewer`: read-only plan, code, and documentation review with `gpt-6-sol` at `xhigh`.
+- `woohyuk-tester`: requirement-driven verification with `gpt-6-sol` at `high`.
+- `woohyuk-adr-documenter`: scoped ADR updates with `gpt-6-sol` at `xhigh`.
+- `woohyuk-architecture-documenter`: scoped architecture docs with `gpt-6-sol` at `xhigh`.
+- `woohyuk-readme-documenter`: scoped README updates with `gpt-6-sol` at `high`.
+- `woohyuk-changelog-documenter`: scoped changelog updates with `gpt-6-sol` at `medium`.
 
 ## Installation
 

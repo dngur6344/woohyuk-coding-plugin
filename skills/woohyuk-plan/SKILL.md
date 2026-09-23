@@ -35,8 +35,8 @@ Use both specialist roles for every new plan when multi-agent tools are availabl
 When spawning a named specialist, set `fork_turns: "none"` and provide a self-contained prompt instead of relying on inherited conversation context. If a named role is unavailable, use a generic read-only subagent with the same role contract and explicitly select these settings:
 
 - Astra architect fallback: `gpt-6-astra`, `medium` when the resolved root model is exactly `gpt-6-astra`.
-- Standard architect fallback: `gpt-5.6-sol`, `xhigh` for every other or unknown root model.
-- Reviewer fallback: `gpt-5.6-sol`, `xhigh`.
+- Standard architect fallback: `gpt-6-sol`, `xhigh` for every other or unknown root model.
+- Reviewer fallback: `gpt-6-sol`, `xhigh`.
 
 Mention the fallback and recommend `$woohyuk-install-subagents`; do not block planning solely because named roles have not been installed. If no subagent can run, the parent must execute the same architect and reviewer contracts, disclose that fallback, and must not mark the plan `planned` without completing the review contract.
 
@@ -45,9 +45,9 @@ Mention the fallback and recommend `$woohyuk-install-subagents`; do not block pl
 Resolve the root session's actual model once before spawning the architect. Run `python3 ../woohyuk-install-subagents/scripts/resolve_current_model.py`, resolving the path relative to this skill directory.
 
 - When it returns `status: detected` and `model: gpt-6-astra`, use `woohyuk-astra-architect` at `medium`.
-- For every other model or `status: unknown`, use the existing `woohyuk-architect` at `gpt-5.6-sol`, `xhigh`.
-- For an Astra specialist substitution, lower the equivalent GPT-5.6 Sol effort by two steps: `xhigh` becomes `medium`, and `high` becomes `low`.
-- Keep `woohyuk-reviewer` at `gpt-5.6-sol`, `xhigh` in both profiles.
+- For every other model or `status: unknown`, use the existing `woohyuk-architect` at `gpt-6-sol`, `xhigh`.
+- For an Astra specialist substitution, lower the equivalent GPT-6 Sol effort by two steps: `xhigh` becomes `medium`, and `high` becomes `low`.
+- Keep `woohyuk-reviewer` at `gpt-6-sol`, `xhigh` in both profiles.
 - Do not change the root session's effort or the effort of specialists that remain on non-Astra models.
 - Do not infer the active model from `~/.codex/config.toml`; a session-level model selection may override that default.
 - Record the selected profile and architect role in the final response.

@@ -1,6 +1,6 @@
 name = "woohyuk-implementer"
 description = "Implementation specialist for one bounded, explicitly owned coding subgoal at a time."
-model = "gpt-6-sol"
+model = "gpt-6.1-sol"
 model_reasoning_effort = "xhigh"
 sandbox_mode = "workspace-write"
 

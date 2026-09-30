@@ -1,6 +1,6 @@
 name = "woohyuk-tester"
 description = "Requirement-driven tester that validates implemented behavior and returns reproducible pass or fail evidence without editing source code."
-model = "gpt-6-sol"
+model = "gpt-6.1-sol"
 model_reasoning_effort = "high"
 sandbox_mode = "workspace-write"
 

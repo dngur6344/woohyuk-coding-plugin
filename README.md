@@ -58,17 +58,17 @@ codex plugin add woohyuk-coding-plugin@woohyuk
 | Role | Model | Responsibility |
 | --- | --- | --- |
 | `woohyuk-architect` | `gpt-6.1-sol` / `xhigh` | Read-only architecture, boundaries, flow, risks, and implementation guidance. |
-| `woohyuk-implementer` | `gpt-6.1-sol` / `xhigh` | Implement one explicitly owned Ralph subgoal at a time. |
+| `woohyuk-implementer` | `gpt-6.1-sol` / `high` | Implement one explicitly owned Ralph subgoal at a time. |
 | `woohyuk-reviewer` | `gpt-6.1-sol` / `xhigh` | Read-only plan, code, and final documentation review. |
 | `woohyuk-tester` | `gpt-6.1-sol` / `high` | Independently test requirements and return reproducible pass or fail evidence. |
-| `woohyuk-adr-documenter` | `gpt-6.1-sol` / `xhigh` | Write only assigned ADR paths from the final diff and test evidence. |
-| `woohyuk-architecture-documenter` | `gpt-6.1-sol` / `xhigh` | Update only assigned architecture documentation paths. |
+| `woohyuk-adr-documenter` | `gpt-6.1-sol` / `high` | Write only assigned ADR paths from the final diff and test evidence. |
+| `woohyuk-architecture-documenter` | `gpt-6.1-sol` / `high` | Update only assigned architecture documentation paths. |
 | `woohyuk-readme-documenter` | `gpt-6.1-sol` / `high` | Update only assigned README paths from verified behavior. |
 | `woohyuk-changelog-documenter` | `gpt-6.1-sol` / `medium` | Update only assigned changelog or release-note paths. |
 
 `$woohyuk-plan` uses `woohyuk-architect` on `gpt-6.1-sol` at `xhigh` to propose a codebase-aligned design, writes the draft in the main thread, and has the reviewer validate it. Every plan records `Yes` or `No`, exact owned paths, an evidence-based reason, and the expected update for ADR, architecture, README, and changelog lanes. The planner normally leaves final documentation to Ralph.
 
-`$woohyuk-ralph` uses `woohyuk-implementer` on `gpt-6.1-sol` at `xhigh`. It advances each code subgoal only after tester `PASS`, then reconciles the four documentation lanes against the actual diff. Required documenters run in parallel as capacity permits, and the read-only reviewer must return `DOC_REVIEW APPROVE` before archival. Documentation defects rerun only implicated lanes; a confirmed code defect reopens code and invalidates all prior documentation evidence.
+`$woohyuk-ralph` uses `woohyuk-implementer` on `gpt-6.1-sol` at `high`. It advances each code subgoal only after tester `PASS`, then reconciles the four documentation lanes against the actual diff. Required documenters run in parallel as capacity permits, and the read-only reviewer must return `DOC_REVIEW APPROVE` before archival. Documentation defects rerun only implicated lanes; a confirmed code defect reopens code and invalidates all prior documentation evidence.
 
 Each agent performs separate model and tool work, so the architecture, test, documentation, and review passes use more tokens than a single-agent run. Only one implementer writes code at a time. Documentation paths are globally pairwise-disjoint: a shared README or index belongs to exactly one lane whose expected update includes all cross-lane content. Capacity may split disjoint lanes into multiple parallel batches, and no documenter may edit code, tests, the active plan, or its archive.
 

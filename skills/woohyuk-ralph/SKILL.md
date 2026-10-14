@@ -41,10 +41,10 @@ If a named role is unavailable, use a generic agent with the same contract and s
 
 | Role | Model | Effort | Access |
 | --- | --- | --- | --- |
-| Implementer | `gpt-6.1-sol` | `xhigh` | workspace write |
+| Implementer | `gpt-6.1-sol` | `high` | workspace write |
 | Tester | `gpt-6.1-sol` | `high` | test artifacts only; no source, tests, or plan edits |
-| ADR documenter | `gpt-6.1-sol` | `xhigh` | exact documentation paths only |
-| Architecture documenter | `gpt-6.1-sol` | `xhigh` | exact documentation paths only |
+| ADR documenter | `gpt-6.1-sol` | `high` | exact documentation paths only |
+| Architecture documenter | `gpt-6.1-sol` | `high` | exact documentation paths only |
 | README documenter | `gpt-6.1-sol` | `high` | exact documentation paths only |
 | Changelog documenter | `gpt-6.1-sol` | `medium` | exact documentation paths only |
 | Reviewer | `gpt-6.1-sol` | `xhigh` | read-only |

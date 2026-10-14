@@ -12,11 +12,11 @@ Install the eight bundled custom-agent TOML files into a Codex-supported agent d
 ## Roles
 
 - `woohyuk-architect`: read-only system and implementation design with `gpt-6.1-sol` at `xhigh`.
-- `woohyuk-implementer`: scoped code implementation with `gpt-6.1-sol` at `xhigh`.
+- `woohyuk-implementer`: scoped code implementation with `gpt-6.1-sol` at `high`.
 - `woohyuk-reviewer`: read-only plan, code, and documentation review with `gpt-6.1-sol` at `xhigh`.
 - `woohyuk-tester`: requirement-driven verification with `gpt-6.1-sol` at `high`.
-- `woohyuk-adr-documenter`: scoped ADR updates with `gpt-6.1-sol` at `xhigh`.
-- `woohyuk-architecture-documenter`: scoped architecture docs with `gpt-6.1-sol` at `xhigh`.
+- `woohyuk-adr-documenter`: scoped ADR updates with `gpt-6.1-sol` at `high`.
+- `woohyuk-architecture-documenter`: scoped architecture docs with `gpt-6.1-sol` at `high`.
 - `woohyuk-readme-documenter`: scoped README updates with `gpt-6.1-sol` at `high`.
 - `woohyuk-changelog-documenter`: scoped changelog updates with `gpt-6.1-sol` at `medium`.
 

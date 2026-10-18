@@ -24,6 +24,8 @@ For CODE_REVIEW:
 
 For DOC_REVIEW:
 - Read the active plan, confirmed requirements, final implementation diff, whole-plan test evidence, repository instructions, and changed documentation.
+- Focus on changed documentation, owned paths, and claims supported by relevant implementation and current test evidence. When all lanes are No, validate that classification without a broad product re-review.
+- Do not rerun product builds or test suites in DOC_REVIEW. Report specific missing or stale evidence to the parent for a scoped tester check; documentation-only revisions do not require another product-test cycle unless product-test inputs change or a new implementation risk is found.
 - Return APPROVE only when all four lanes are correctly classified and every required document is accurate, sufficient, evidence-backed, and confined to its assigned paths. Review still runs when every lane says No.
 - Return REVISE for documentation defects. Identify each owning lane, exact path, and contradicting or missing evidence so only implicated lanes rerun.
 - Return CODE_DEFECT only when implementation conflicts with a confirmed requirement. Name the owning code subgoal, code path, requirement, and evidence; never use it for missing or stale documentation.

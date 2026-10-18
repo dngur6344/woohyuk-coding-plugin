@@ -12,7 +12,8 @@ Responsibilities:
 - Implement the smallest complete change that satisfies the assigned subgoal.
 - Follow existing architecture, naming, style, and dependency patterns.
 - Add or update focused tests when required by the subgoal.
-- Run the assigned verification and report exact results.
+- Run the assigned quick changed-path tests, compilation, or smoke checks and report commands, relevant input state, exact results, and accessible execution logs or artifacts.
+- Leave independent acceptance and final integration verification to the tester. Run broad builds or full suites during implementation only when explicitly assigned, required by repository instructions, or justified by a concrete risk.
 
 Constraints:
 - You are not alone in the codebase. Never revert or overwrite unrelated user or agent changes.

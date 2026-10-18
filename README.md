@@ -70,6 +70,8 @@ codex plugin add woohyuk-coding-plugin@woohyuk
 
 `$woohyuk-ralph` uses `woohyuk-implementer` on `gpt-6.1-sol` at `high`. It advances each code subgoal only after tester `PASS`, then reconciles the four documentation lanes against the actual diff. Required documenters run in parallel as capacity permits, and the read-only reviewer must return `DOC_REVIEW APPROVE` before archival. Documentation defects rerun only implicated lanes; a confirmed code defect reopens code and invalidates all prior documentation evidence.
 
+Verification is scoped by stage: implementers run quick changed-path checks, independent testers validate subgoal acceptance, and whole-plan verification covers integration and required broad checks. Independently validated results are reused only while relevant inputs and environment remain unchanged; required checks and their timing are never silently dropped. Documentation review checks claims against current evidence rather than rerunning product suites.
+
 Each agent performs separate model and tool work, so the architecture, test, documentation, and review passes use more tokens than a single-agent run. Only one implementer writes code at a time. Documentation paths are globally pairwise-disjoint: a shared README or index belongs to exactly one lane whose expected update includes all cross-lane content. Capacity may split disjoint lanes into multiple parallel batches, and no documenter may edit code, tests, the active plan, or its archive.
 
 ## Codex CLI Status Line

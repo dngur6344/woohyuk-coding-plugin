@@ -84,7 +84,7 @@ Ask the user when a decision would change what gets built or how it is built.
 - Use the local date in `YYYY-MM-DD` format for `created` and `updated`. Run `date +%F` if the date is not already reliable.
 - Derive `feature_slug` from the requested feature in short kebab-case.
 - Korean slugs are acceptable when they are clearer for the project; replace whitespace with `-`.
-- Keep `feature_slug` stable because Ralph uses it for `docs/YYYY-MM-DD-feature-slug/plan.md` after completion.
+- Keep `feature_slug` stable because Ralph uses it for `docs/YYYY-MM-DD-feature-slug/worklog.md` after completion.
 
 ## Documentation Impact
 

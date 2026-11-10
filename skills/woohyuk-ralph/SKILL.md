@@ -19,7 +19,7 @@ Any blocked condition retains the active plan. Only the parent running Ralph may
 
 ## Active Plan
 
-1. Execute only `.woohyuk/plan.md` at the target repository root. Historical `docs/*/plan.md` files are not queues.
+1. Execute only `.woohyuk/plan.md` at the target repository root. Archived `docs/*/worklog.md` and legacy `docs/*/plan.md` files are not queues.
 2. Read the complete plan, repository instructions, named files, package scripts, and relevant docs before changing status.
 3. Check the working tree and preserve unrelated user changes.
 4. Require verifiable subgoals plus all four Documentation Impact lanes. Normalize a legacy plan from repository evidence before implementation; stop for any unresolved implementation or documentation decision.
@@ -138,8 +138,8 @@ After and only after `DOC_REVIEW APPROVE`:
 
 1. Set `status: implemented`, `updated: YYYY-MM-DD`, and `implemented_at: YYYY-MM-DD`.
 2. Update `## Implementation Result` with the actual summary, completed subgoals, code and documentation files, tester evidence, documentation approval, and follow-ups.
-3. Build `docs/YYYY-MM-DD-feature-slug/plan.md`. If the path exists, ask before overwriting or choose a user-approved distinct slug.
-4. Write the entire finalized plan to the archive. The parent is the only archive writer.
+3. Build `docs/YYYY-MM-DD-feature-slug/worklog.md`. If the path exists, ask before overwriting or choose a user-approved distinct slug.
+4. Write the entire finalized plan, including the implementation and verification results, to the work log. The parent is the only archive writer.
 5. Verify the archive contains `status: implemented`, all required checked subgoals, successful whole-plan verification, and `## Documentation Result` with `APPROVE`.
 6. Delete `.woohyuk/plan.md` only after that verification passes; remove `.woohyuk/` only if empty.
 

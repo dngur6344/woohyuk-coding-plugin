@@ -1,0 +1,4 @@
+interface:
+  display_name: "Woohyuk FigCraft CLI"
+  short_description: "Create and edit native FigCraft designs with its CLI."
+  default_prompt: "Use $woohyuk-figcraft-cli to inspect or edit a local FigCraft design, render it, and prepare the native file for the FigCraft app."

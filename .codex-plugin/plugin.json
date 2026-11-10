@@ -1,7 +1,7 @@
 {
   "name": "woohyuk-coding-plugin",
-  "version": "0.11.2",
-  "description": "Personal Codex workflows and eight specialized agents for planning, implementation, testing, review, evidence-backed documentation, design implementation, PRs, releases, and LLM wiki lookup.",
+  "version": "0.12.1",
+  "description": "Personal Codex workflows and eight specialized agents for planning, implementation, testing, review, evidence-backed documentation, Pencil and FigCraft design workflows, PRs, releases, and LLM wiki lookup.",
   "author": {
     "name": "woohyuk",
     "url": "https://github.com/dngur6344"
@@ -12,7 +12,7 @@
   "interface": {
     "displayName": "Woohyuk Coding Plugin",
     "shortDescription": "Eight specialist agents for code, tests, review, and docs.",
-    "longDescription": "Woohyuk Coding Plugin provides eight specialized agents for architecture, scoped implementation, independent testing, read-only review, and evidence-backed ADR, architecture, README, and changelog updates. Its personal Codex skills cover code review, interactive diff explanations, Pencil design implementation, active implementation planning, Ralph execution with a documentation review gate, test planning, visual QA, public release checks, commit messages, PR preparation, documentation consistency, and local LLM wiki search.",
+    "longDescription": "Woohyuk Coding Plugin provides eight specialized agents for architecture, scoped implementation, independent testing, read-only review, and evidence-backed ADR, architecture, README, and changelog updates. Its personal Codex skills cover code review, interactive diff explanations, Pencil design implementation, native FigCraft design workflows through the local CLI, active implementation planning, Ralph execution with a documentation review gate, test planning, visual QA, public release checks, commit messages, PR preparation, documentation consistency, and local LLM wiki search.",
     "developerName": "woohyuk",
     "category": "Productivity",
     "capabilities": [],

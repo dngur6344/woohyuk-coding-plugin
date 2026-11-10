@@ -2,7 +2,7 @@
 
 [English](README.md) | [한국어](README.ko.md)
 
-Personal Codex plugin with eight specialized agents for architecture, implementation, review, testing, and evidence-backed documentation, plus workflows for code review, interactive diff explanations, Pencil design implementation, planning, plan execution, PR preparation, release checks, and local LLM wiki lookup.
+Personal Codex plugin with eight specialized agents for architecture, implementation, review, testing, and evidence-backed documentation, plus workflows for code review, interactive diff explanations, Pencil and FigCraft design workflows, planning, plan execution, PR preparation, release checks, and local LLM wiki lookup.
 
 ## Marketplace and Installation
 
@@ -39,6 +39,7 @@ codex plugin add woohyuk-coding-plugin@woohyuk
 - `$woohyuk-review-code`: Review diffs, PRs, and working-tree changes for concrete bugs, regressions, and test gaps.
 - `$woohyuk-explain-diff`: Explain a diff, commit, branch, or PR as an interactive self-contained HTML document.
 - `$woohyuk-pencil-design-implementation`: Use Pencil `.pen` files through Pencil MCP tools, then implement the design in code.
+- `$woohyuk-figcraft-cli`: Create, inspect, edit, render, and export native designs for the FigCraft app using the local CLI; extract code only when requested.
 - `$woohyuk-maintain-readme`: Create or update README content from repository evidence.
 - `$woohyuk-document-project-architecture`: Create structured project architecture documentation under `docs/`.
 - `$woohyuk-write-adr`: Write Architecture Decision Records under `docs/adr/`.
@@ -52,6 +53,12 @@ codex plugin add woohyuk-coding-plugin@woohyuk
 - `$woohyuk-update-changelog`: Create or update changelog and release-note entries.
 - `$woohyuk-docs-consistency-check`: Find stale or contradictory documentation.
 - `$woohyuk-search-llm-wiki`: Search and reference the local LLM wiki for relevant knowledge.
+
+## FigCraft CLI
+
+`$woohyuk-figcraft-cli` targets the FigCraft app and local `.figcraft` files, not Figma automation. Install the FigCraft app and `figcraft-cli` separately; neither is bundled in this plugin. The skill uses the supplied executable path or searches `PATH` and the local installation directories. For manual installation, keep the full release under `~/.local/opt/figcraft-cli/0.12.1/` and symlink its executable to `~/.local/bin/figcraft-cli` (verified on macOS with CLI 0.12.1). Include `~/.local/bin` in `PATH`, then confirm with `command -v figcraft-cli` and `figcraft-cli --version`.
+
+Headless CLI operations save files; they do not automatically update a tab already open in FigCraft. The skill preserves the original while validating an edited output and can open that output in FigCraft for review. Sharing, publishing, and live-app attachment are not enabled automatically.
 
 ## Specialized Subagents
 
@@ -97,6 +104,7 @@ skills/
   woohyuk-review-code/
   woohyuk-explain-diff/
   woohyuk-pencil-design-implementation/
+  woohyuk-figcraft-cli/
   woohyuk-maintain-readme/
   woohyuk-document-project-architecture/
   woohyuk-write-adr/

@@ -2,7 +2,7 @@
 
 [English](README.md) | [한국어](README.ko.md)
 
-아키텍처, 구현, 리뷰, 테스트와 근거 기반 문서화를 담당하는 8개의 전문 에이전트와 코드 리뷰, 대화형 변경사항 설명, Pencil 디자인 구현, 계획 수립과 실행, PR 준비, 배포 점검, 로컬 LLM 위키 검색 워크플로를 제공하는 개인용 Codex 플러그인입니다.
+아키텍처, 구현, 리뷰, 테스트와 근거 기반 문서화를 담당하는 8개의 전문 에이전트와 코드 리뷰, 대화형 변경사항 설명, Pencil 및 FigCraft 디자인 작업, 계획 수립과 실행, PR 준비, 배포 점검, 로컬 LLM 위키 검색 워크플로를 제공하는 개인용 Codex 플러그인입니다.
 
 ## 마켓플레이스 및 설치
 
@@ -39,6 +39,7 @@ codex plugin add woohyuk-coding-plugin@woohyuk
 - `$woohyuk-review-code`: diff, PR, 작업 트리 변경사항에서 구체적인 버그, 회귀, 테스트 누락을 검토합니다.
 - `$woohyuk-explain-diff`: diff, 커밋, 브랜치, PR을 대화형 단일 HTML 문서로 설명합니다.
 - `$woohyuk-pencil-design-implementation`: Pencil MCP 도구로 `.pen` 파일을 사용하고 디자인을 코드로 구현합니다.
+- `$woohyuk-figcraft-cli`: 로컬 CLI로 FigCraft 앱의 네이티브 디자인을 생성·조회·수정·렌더링·내보내기하고, 요청한 경우에만 코드를 추출합니다.
 - `$woohyuk-maintain-readme`: 저장소에 있는 근거를 바탕으로 README를 생성하거나 업데이트합니다.
 - `$woohyuk-document-project-architecture`: `docs/` 아래에 구조화된 프로젝트 아키텍처 문서를 작성합니다.
 - `$woohyuk-write-adr`: `docs/adr/` 아래에 Architecture Decision Record를 작성합니다.
@@ -52,6 +53,12 @@ codex plugin add woohyuk-coding-plugin@woohyuk
 - `$woohyuk-update-changelog`: 변경 기록과 릴리스 노트를 생성하거나 업데이트합니다.
 - `$woohyuk-docs-consistency-check`: 오래되었거나 서로 모순되는 문서를 찾습니다.
 - `$woohyuk-search-llm-wiki`: 로컬 LLM 위키에서 관련 지식을 검색하고 참조합니다.
+
+## FigCraft CLI
+
+`$woohyuk-figcraft-cli`는 Figma 자동화가 아니라 FigCraft 앱과 로컬 `.figcraft` 파일을 대상으로 합니다. FigCraft 앱과 `figcraft-cli`는 별도로 설치하며 플러그인에 포함하지 않습니다. 사용자가 지정한 실행 파일 경로를 우선 사용하고, 지정하지 않으면 `PATH`와 로컬 설치 경로를 찾습니다. 수동 설치 시 배포 폴더 전체를 `~/.local/opt/figcraft-cli/0.12.1/`에 보관하고 실행 파일을 `~/.local/bin/figcraft-cli`로 심볼릭 링크하는 구성을 권장합니다(macOS CLI 0.12.1에서 확인). `~/.local/bin`을 `PATH`에 포함한 뒤 `command -v figcraft-cli`와 `figcraft-cli --version`으로 확인합니다.
+
+헤드리스 CLI 작업은 파일을 저장하며, FigCraft에서 이미 열린 탭을 자동으로 갱신하지는 않습니다. 수정 결과를 검증하는 동안 원본을 보존하고, 결과 파일을 FigCraft 앱에서 열어 확인할 수 있도록 구성했습니다. 공유·게시·실행 중인 앱 연결은 자동으로 활성화하지 않습니다.
 
 ## 전문 서브 에이전트
 
@@ -97,6 +104,7 @@ skills/
   woohyuk-review-code/
   woohyuk-explain-diff/
   woohyuk-pencil-design-implementation/
+  woohyuk-figcraft-cli/
   woohyuk-maintain-readme/
   woohyuk-document-project-architecture/
   woohyuk-write-adr/

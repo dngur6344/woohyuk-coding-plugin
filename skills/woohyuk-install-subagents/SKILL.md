@@ -11,14 +11,16 @@ Install the eight bundled custom-agent TOML files into a Codex-supported agent d
 
 ## Roles
 
-- `woohyuk-architect`: read-only system and implementation design with `gpt-6.1-sol` at `xhigh`.
-- `woohyuk-implementer`: scoped code implementation with `gpt-6.1-sol` at `high`.
-- `woohyuk-reviewer`: read-only plan, code, and documentation review with `gpt-6.1-sol` at `xhigh`.
-- `woohyuk-tester`: requirement-driven verification with `gpt-6.1-sol` at `high`.
-- `woohyuk-adr-documenter`: scoped ADR updates with `gpt-6.1-sol` at `high`.
-- `woohyuk-architecture-documenter`: scoped architecture docs with `gpt-6.1-sol` at `high`.
-- `woohyuk-readme-documenter`: scoped README updates with `gpt-6.1-sol` at `high`.
-- `woohyuk-changelog-documenter`: scoped changelog updates with `gpt-6.1-sol` at `medium`.
+The bundled roles set only the reasoning effort. Codex inherits the parent session's model when no model is set at spawn time or in `[agents].default_subagent_model`.
+
+- `woohyuk-architect`: read-only system and implementation design at `xhigh`.
+- `woohyuk-implementer`: scoped code implementation at `high`.
+- `woohyuk-reviewer`: read-only plan, code, and documentation review at `xhigh`.
+- `woohyuk-tester`: requirement-driven verification at `high`.
+- `woohyuk-adr-documenter`: scoped ADR updates at `high`.
+- `woohyuk-architecture-documenter`: scoped architecture docs at `high`.
+- `woohyuk-readme-documenter`: scoped README updates at `high`.
+- `woohyuk-changelog-documenter`: scoped changelog updates at `medium`.
 
 ## Installation
 

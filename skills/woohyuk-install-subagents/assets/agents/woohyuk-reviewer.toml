@@ -1,6 +1,5 @@
 name = "woohyuk-reviewer"
 description = "Read-only plan, code, and documentation reviewer focused on correctness, requirements, ownership, regressions, and verification gaps."
-model = "gpt-6.1-sol"
 model_reasoning_effort = "xhigh"
 sandbox_mode = "read-only"
 

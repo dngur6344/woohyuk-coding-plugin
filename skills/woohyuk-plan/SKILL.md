@@ -32,10 +32,7 @@ Use both specialist roles for every new plan when multi-agent tools are availabl
 4. On `REVISE`, update the draft and resubmit it to the reviewer. Allow at most two revision rounds. If the second revision is not approved, set `status: blocked`, record the remaining review issues, and ask the user how to resolve them. On `BLOCKED`, do the same for the missing decision. Set `status: planned` only after `APPROVE`.
 5. Wait for each specialist's result and incorporate evidence rather than copying its output blindly.
 
-When spawning a named specialist, set `fork_turns: "none"` and provide a self-contained prompt instead of relying on inherited conversation context. If a named role is unavailable, use a generic read-only subagent with the same role contract and explicitly select these settings:
-
-- Architect fallback: `gpt-6.1-sol`, `xhigh`.
-- Reviewer fallback: `gpt-6.1-sol`, `xhigh`.
+When spawning a named specialist, set `fork_turns: "none"` and provide a self-contained prompt instead of relying on inherited conversation context. Omit the model override so Codex can inherit the parent session's model. If either named role is unavailable, use a generic read-only subagent with the same role contract and set reasoning effort to `xhigh`, leaving the model unspecified.
 
 Mention the fallback and recommend `$woohyuk-install-subagents`; do not block planning solely because named roles have not been installed. If no subagent can run, the parent must execute the same architect and reviewer contracts, disclose that fallback, and must not mark the plan `planned` without completing the review contract.
 

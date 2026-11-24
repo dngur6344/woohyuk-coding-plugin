@@ -62,20 +62,22 @@ codex plugin add woohyuk-coding-plugin@woohyuk
 
 ## 전문 서브 에이전트
 
-| 역할 | 모델 | 책임 |
+8개 역할은 생성 시 또는 `[agents].default_subagent_model`에 별도 모델을 지정하지 않으면 메인 세션의 모델을 상속합니다. 추론 수준은 역할별로 고정합니다.
+
+| 역할 | 추론 수준 | 책임 |
 | --- | --- | --- |
-| `woohyuk-architect` | `gpt-6.1-sol` / `xhigh` | 읽기 전용으로 아키텍처, 경계, 흐름, 위험과 구현 방향을 설계합니다. |
-| `woohyuk-implementer` | `gpt-6.1-sol` / `high` | 명확하게 할당받은 Ralph 소목표 하나를 구현합니다. |
-| `woohyuk-reviewer` | `gpt-6.1-sol` / `xhigh` | 읽기 전용으로 계획, 코드, 최종 문서를 검토합니다. |
-| `woohyuk-tester` | `gpt-6.1-sol` / `high` | 요구사항을 독립적으로 테스트하고 재현 가능한 통과 또는 실패 근거를 반환합니다. |
-| `woohyuk-adr-documenter` | `gpt-6.1-sol` / `high` | 최종 diff와 테스트 근거를 바탕으로 할당된 ADR 경로만 작성합니다. |
-| `woohyuk-architecture-documenter` | `gpt-6.1-sol` / `high` | 할당된 아키텍처 문서 경로만 업데이트합니다. |
-| `woohyuk-readme-documenter` | `gpt-6.1-sol` / `high` | 검증된 동작을 바탕으로 할당된 README 경로만 업데이트합니다. |
-| `woohyuk-changelog-documenter` | `gpt-6.1-sol` / `medium` | 할당된 변경 기록 또는 릴리스 노트 경로만 업데이트합니다. |
+| `woohyuk-architect` | `xhigh` | 읽기 전용으로 아키텍처, 경계, 흐름, 위험과 구현 방향을 설계합니다. |
+| `woohyuk-implementer` | `high` | 명확하게 할당받은 Ralph 소목표 하나를 구현합니다. |
+| `woohyuk-reviewer` | `xhigh` | 읽기 전용으로 계획, 코드, 최종 문서를 검토합니다. |
+| `woohyuk-tester` | `high` | 요구사항을 독립적으로 테스트하고 재현 가능한 통과 또는 실패 근거를 반환합니다. |
+| `woohyuk-adr-documenter` | `high` | 최종 diff와 테스트 근거를 바탕으로 할당된 ADR 경로만 작성합니다. |
+| `woohyuk-architecture-documenter` | `high` | 할당된 아키텍처 문서 경로만 업데이트합니다. |
+| `woohyuk-readme-documenter` | `high` | 검증된 동작을 바탕으로 할당된 README 경로만 업데이트합니다. |
+| `woohyuk-changelog-documenter` | `medium` | 할당된 변경 기록 또는 릴리스 노트 경로만 업데이트합니다. |
 
-`$woohyuk-plan`은 `gpt-6.1-sol`과 `xhigh`를 사용하는 `woohyuk-architect`에게 코드베이스에 맞는 설계를 요청하고 메인 스레드에서 초안을 작성한 뒤 리뷰어에게 검증받습니다. 모든 계획은 ADR, 아키텍처, README, 변경 기록 레인마다 `Yes` 또는 `No`, 정확한 소유 경로, 근거 기반 이유, 예상 업데이트를 기록합니다. 계획 단계에서는 일반적으로 최종 문서를 작성하지 않습니다.
+`$woohyuk-plan`은 `xhigh`를 사용하는 `woohyuk-architect`에게 코드베이스에 맞는 설계를 요청하고 메인 스레드에서 초안을 작성한 뒤 리뷰어에게 검증받습니다. 모든 계획은 ADR, 아키텍처, README, 변경 기록 레인마다 `Yes` 또는 `No`, 정확한 소유 경로, 근거 기반 이유, 예상 업데이트를 기록합니다. 계획 단계에서는 일반적으로 최종 문서를 작성하지 않습니다.
 
-`$woohyuk-ralph`는 `gpt-6.1-sol`과 `high`를 사용하는 `woohyuk-implementer`로 구현합니다. 테스터가 `PASS`를 반환한 경우에만 각 코드 소목표를 진행하고, 마지막에는 실제 diff를 기준으로 네 문서화 레인을 다시 판단합니다. 필요한 문서 작성자는 용량이 허용되는 범위에서 병렬로 실행하며, 읽기 전용 리뷰어가 `DOC_REVIEW APPROVE`를 반환하면 완료된 작업 이력을 `docs/YYYY-MM-DD-feature-slug/worklog.md`에 보관합니다. 문서 결함은 관련 레인만 다시 실행하고, 확정된 코드 결함은 코드를 다시 열어 이전 문서 근거를 모두 무효화합니다.
+`$woohyuk-ralph`는 `high`를 사용하는 `woohyuk-implementer`로 구현합니다. 테스터가 `PASS`를 반환한 경우에만 각 코드 소목표를 진행하고, 마지막에는 실제 diff를 기준으로 네 문서화 레인을 다시 판단합니다. 필요한 문서 작성자는 용량이 허용되는 범위에서 병렬로 실행하며, 읽기 전용 리뷰어가 `DOC_REVIEW APPROVE`를 반환하면 완료된 작업 이력을 `docs/YYYY-MM-DD-feature-slug/worklog.md`에 보관합니다. 문서 결함은 관련 레인만 다시 실행하고, 확정된 코드 결함은 코드를 다시 열어 이전 문서 근거를 모두 무효화합니다.
 
 검증 범위는 단계별로 나눕니다. 구현자는 변경 부분의 빠른 점검을, 독립 테스터는 소목표의 인수 조건 검증을, 전체 계획 검증은 통합 동작과 필수 광범위 검증을 담당합니다. 독립 검증된 결과는 관련 입력과 환경이 바뀌지 않은 경우에만 재사용하며, 필수 검증과 수행 시점을 임의로 생략하지 않습니다. 문서 리뷰에서는 제품 테스트를 다시 실행하지 않고 현재 검증 근거와 문서 내용의 일치 여부를 확인합니다.
 

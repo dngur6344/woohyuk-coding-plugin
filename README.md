@@ -62,20 +62,22 @@ Headless CLI operations save files; they do not automatically update a tab alrea
 
 ## Specialized Subagents
 
-| Role | Model | Responsibility |
+All eight roles inherit the parent session's model unless a spawn request or `[agents].default_subagent_model` supplies another one. Each role fixes its own reasoning effort.
+
+| Role | Reasoning effort | Responsibility |
 | --- | --- | --- |
-| `woohyuk-architect` | `gpt-6.1-sol` / `xhigh` | Read-only architecture, boundaries, flow, risks, and implementation guidance. |
-| `woohyuk-implementer` | `gpt-6.1-sol` / `high` | Implement one explicitly owned Ralph subgoal at a time. |
-| `woohyuk-reviewer` | `gpt-6.1-sol` / `xhigh` | Read-only plan, code, and final documentation review. |
-| `woohyuk-tester` | `gpt-6.1-sol` / `high` | Independently test requirements and return reproducible pass or fail evidence. |
-| `woohyuk-adr-documenter` | `gpt-6.1-sol` / `high` | Write only assigned ADR paths from the final diff and test evidence. |
-| `woohyuk-architecture-documenter` | `gpt-6.1-sol` / `high` | Update only assigned architecture documentation paths. |
-| `woohyuk-readme-documenter` | `gpt-6.1-sol` / `high` | Update only assigned README paths from verified behavior. |
-| `woohyuk-changelog-documenter` | `gpt-6.1-sol` / `medium` | Update only assigned changelog or release-note paths. |
+| `woohyuk-architect` | `xhigh` | Read-only architecture, boundaries, flow, risks, and implementation guidance. |
+| `woohyuk-implementer` | `high` | Implement one explicitly owned Ralph subgoal at a time. |
+| `woohyuk-reviewer` | `xhigh` | Read-only plan, code, and final documentation review. |
+| `woohyuk-tester` | `high` | Independently test requirements and return reproducible pass or fail evidence. |
+| `woohyuk-adr-documenter` | `high` | Write only assigned ADR paths from the final diff and test evidence. |
+| `woohyuk-architecture-documenter` | `high` | Update only assigned architecture documentation paths. |
+| `woohyuk-readme-documenter` | `high` | Update only assigned README paths from verified behavior. |
+| `woohyuk-changelog-documenter` | `medium` | Update only assigned changelog or release-note paths. |
 
-`$woohyuk-plan` uses `woohyuk-architect` on `gpt-6.1-sol` at `xhigh` to propose a codebase-aligned design, writes the draft in the main thread, and has the reviewer validate it. Every plan records `Yes` or `No`, exact owned paths, an evidence-based reason, and the expected update for ADR, architecture, README, and changelog lanes. The planner normally leaves final documentation to Ralph.
+`$woohyuk-plan` uses `woohyuk-architect` at `xhigh` to propose a codebase-aligned design, writes the draft in the main thread, and has the reviewer validate it. Every plan records `Yes` or `No`, exact owned paths, an evidence-based reason, and the expected update for ADR, architecture, README, and changelog lanes. The planner normally leaves final documentation to Ralph.
 
-`$woohyuk-ralph` uses `woohyuk-implementer` on `gpt-6.1-sol` at `high`. It advances each code subgoal only after tester `PASS`, then reconciles the four documentation lanes against the actual diff. Required documenters run in parallel as capacity permits, and the read-only reviewer must return `DOC_REVIEW APPROVE` before archiving the completed work log at `docs/YYYY-MM-DD-feature-slug/worklog.md`. Documentation defects rerun only implicated lanes; a confirmed code defect reopens code and invalidates all prior documentation evidence.
+`$woohyuk-ralph` uses `woohyuk-implementer` at `high`. It advances each code subgoal only after tester `PASS`, then reconciles the four documentation lanes against the actual diff. Required documenters run in parallel as capacity permits, and the read-only reviewer must return `DOC_REVIEW APPROVE` before archiving the completed work log at `docs/YYYY-MM-DD-feature-slug/worklog.md`. Documentation defects rerun only implicated lanes; a confirmed code defect reopens code and invalidates all prior documentation evidence.
 
 Verification is scoped by stage: implementers run quick changed-path checks, independent testers validate subgoal acceptance, and whole-plan verification covers integration and required broad checks. Independently validated results are reused only while relevant inputs and environment remain unchanged; required checks and their timing are never silently dropped. Documentation review checks claims against current evidence rather than rerunning product suites.
 

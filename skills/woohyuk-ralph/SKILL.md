@@ -35,19 +35,19 @@ Any blocked condition retains the active plan. Only the parent running Ralph may
 - `woohyuk-changelog-documenter`: uses `$woohyuk-update-changelog`.
 - `woohyuk-reviewer`: read-only `DOC_REVIEW`.
 
-Spawn every named role with `fork_turns: "none"` and a self-contained prompt containing the repository, active plan, confirmed requirements, repository instructions, exact task and owned paths, relevant diff, and verification evidence. Wait for every result used by the state machine.
+Spawn every named role with `fork_turns: "none"` and a self-contained prompt containing the repository, active plan, confirmed requirements, repository instructions, exact task and owned paths, relevant diff, and verification evidence. Omit the model override so Codex can inherit the parent session's model. Wait for every result used by the state machine.
 
-If a named role is unavailable, use a generic agent with the same contract and settings:
+If a named role is unavailable, use a generic agent with the same contract and the settings below. Leave the model unspecified.
 
-| Role | Model | Effort | Access |
-| --- | --- | --- | --- |
-| Implementer | `gpt-6.1-sol` | `high` | workspace write |
-| Tester | `gpt-6.1-sol` | `high` | test artifacts only; no source, tests, or plan edits |
-| ADR documenter | `gpt-6.1-sol` | `high` | exact documentation paths only |
-| Architecture documenter | `gpt-6.1-sol` | `high` | exact documentation paths only |
-| README documenter | `gpt-6.1-sol` | `high` | exact documentation paths only |
-| Changelog documenter | `gpt-6.1-sol` | `medium` | exact documentation paths only |
-| Reviewer | `gpt-6.1-sol` | `xhigh` | read-only |
+| Role | Effort | Access |
+| --- | --- | --- |
+| Implementer | `high` | workspace write |
+| Tester | `high` | test artifacts only; no source, tests, or plan edits |
+| ADR documenter | `high` | exact documentation paths only |
+| Architecture documenter | `high` | exact documentation paths only |
+| README documenter | `high` | exact documentation paths only |
+| Changelog documenter | `medium` | exact documentation paths only |
+| Reviewer | `xhigh` | read-only |
 
 Disclose a fallback and recommend `$woohyuk-install-subagents`, but do not abandon an active plan only because a named role is unavailable.
 
